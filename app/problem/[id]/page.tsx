@@ -11,6 +11,8 @@ import { db } from "@/lib/db";
 import { id } from "@instantdb/react";
 import { PROBLEMS, Problem, DIFFICULTY_COLOR } from "@/lib/problems";
 import { useTheme } from "@/components/ThemeProvider";
+import { getVisualization } from "@/lib/viz/registry";
+import AlgoVisualizer from "@/components/viz/AlgoVisualizer";
 
 const STATUSES = [
   { key: "todo", label: "To do" },
@@ -49,6 +51,11 @@ export default function ProblemPage({ params }: { params: { id: string } }) {
   }, [data, pid]);
 
   const progress = data?.progress?.[0] as any | undefined;
+
+  const viz = useMemo(
+    () => (problem ? getVisualization(problem.slug) : null),
+    [problem]
+  );
 
   const [scratch, setScratch] = useState("");
   const [notes, setNotes] = useState("");
@@ -279,6 +286,16 @@ export default function ProblemPage({ params }: { params: { id: string } }) {
           </div>
         </div>
       </div>
+
+      {/* algorithm visualization (only for problems with a registered tracer) */}
+      {viz && (
+        <div className="mt-8">
+          <h2 className="mb-2 text-sm font-semibold text-muted uppercase tracking-wide">
+            Visualize
+          </h2>
+          <AlgoVisualizer viz={viz} />
+        </div>
+      )}
 
       {/* prev / next navigation */}
       <div className="mt-8 grid grid-cols-2 gap-3">

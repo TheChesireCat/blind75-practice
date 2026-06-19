@@ -71,6 +71,26 @@ Open http://localhost:3000.
    - `NEXT_PUBLIC_INSTANT_APP_ID`
    - `INSTANT_ADMIN_TOKEN` (optional in Vercel — only needed if you seed from CI)
 
+## Algorithm visualizations
+
+Some problems show a **Visualize** panel: a step-through SVG animation of the
+algorithm plus an auto-derived "tabulature" table, with play/step/scrub
+controls. It's a trace-driven framework, so per-problem work is tiny:
+
+- `lib/viz/types.ts` — the `Frame` / `Visualization` model.
+- `components/viz/AlgoVisualizer.tsx` — generic player (controls, status
+  panel, legend, static table) + stage renderer.
+- `components/viz/SequenceView.tsx` — the 1D-array stage (boxes, pointers,
+  sliding window, profit arrow). More stages planned: GridView, TreeView,
+  LinkedListView, IntervalTimeline, GraphView.
+- `lib/viz/<slug>.ts` — a **tracer**: runs the algorithm and emits frames.
+- `lib/viz/registry.ts` — maps a LeetCode slug to its tracer.
+
+To add a visualization: write a tracer that returns `{ title, columns,
+frames }` and register it by slug. The static table is generated from each
+frame's `row`, so you get the tabular aid for free. See
+`best-time-to-buy-and-sell-stock.ts` for a worked example.
+
 ## Data
 
 `blind75-data.csv` is the source data; `data/problems.json` is the parsed,
