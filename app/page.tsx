@@ -97,7 +97,7 @@ export default function Home() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search title, category, or tag…"
-          className="flex-1 min-w-[200px] rounded-md border border-border bg-panel px-3 py-2 text-sm outline-none focus:border-accent"
+          className="w-full sm:flex-1 sm:w-auto sm:min-w-[200px] rounded-md border border-border bg-panel px-3 py-2 text-sm outline-none focus:border-accent"
         />
         <div className="flex gap-1">
           {DIFFICULTIES.map((d) => (
@@ -156,9 +156,9 @@ export default function Home() {
                     <span className="font-mono text-xs text-muted w-8 shrink-0">
                       {p.no}
                     </span>
-                    <span className="flex-1 text-sm">{p.title}</span>
+                    <span className="flex-1 min-w-0 text-sm">{p.title}</span>
                     <span
-                      className={`text-xs ${DIFFICULTY_COLOR[p.difficulty]}`}
+                      className={`shrink-0 text-xs ${DIFFICULTY_COLOR[p.difficulty]}`}
                     >
                       {p.difficulty}
                     </span>

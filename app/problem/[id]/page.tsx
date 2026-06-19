@@ -87,9 +87,9 @@ export default function ProblemPage({ params }: { params: { id: string } }) {
         ← all problems
       </Link>
 
-      <div className="mt-3 flex items-start justify-between gap-4">
-        <div>
-          <h1 className="text-xl font-semibold">
+      <div className="mt-3 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+        <div className="min-w-0">
+          <h1 className="text-lg sm:text-xl font-semibold break-words">
             {problem.no}. {problem.title}
           </h1>
           <div className="mt-1 flex flex-wrap items-center gap-2 text-xs">
@@ -112,7 +112,7 @@ export default function ProblemPage({ params }: { params: { id: string } }) {
           href={problem.slug}
           target="_blank"
           rel="noreferrer"
-          className="shrink-0 rounded-md border border-border px-3 py-1.5 text-xs text-muted hover:text-white transition-colors"
+          className="self-start shrink-0 rounded-md border border-border px-3 py-1.5 text-xs text-muted hover:text-white transition-colors"
         >
           LeetCode ↗
         </a>
@@ -125,7 +125,7 @@ export default function ProblemPage({ params }: { params: { id: string } }) {
       )}
 
       {/* status */}
-      <div className="mt-4 flex gap-1">
+      <div className="mt-4 flex flex-wrap gap-1">
         {STATUSES.map((s) => (
           <button
             key={s.key}
@@ -143,18 +143,18 @@ export default function ProblemPage({ params }: { params: { id: string } }) {
 
       <div className="mt-6 grid gap-6 lg:grid-cols-2">
         {/* description */}
-        <div>
+        <div className="min-w-0">
           <h2 className="mb-2 text-sm font-semibold text-muted uppercase tracking-wide">
             Problem
           </h2>
           <div
-            className="problem-body rounded-lg border border-border bg-panel p-4 text-sm"
+            className="problem-body rounded-lg border border-border bg-panel p-4 text-sm overflow-x-auto"
             dangerouslySetInnerHTML={{ __html: problem.description }}
           />
         </div>
 
         {/* practice */}
-        <div className="space-y-6">
+        <div className="space-y-6 min-w-0">
           <div>
             <div className="mb-2 flex items-center justify-between">
               <h2 className="text-sm font-semibold text-muted uppercase tracking-wide">
@@ -203,11 +203,15 @@ export default function ProblemPage({ params }: { params: { id: string } }) {
               </button>
             </div>
             {showSolution ? (
-              <div className="rounded-lg border border-border overflow-hidden text-sm">
+              <div className="rounded-lg border border-border overflow-x-auto text-sm">
                 <SyntaxHighlighter
                   language="python"
                   style={oneDark}
-                  customStyle={{ margin: 0, background: "#161b22" }}
+                  customStyle={{
+                    margin: 0,
+                    background: "#161b22",
+                    fontSize: "0.8rem",
+                  }}
                 >
                   {problem.solution}
                 </SyntaxHighlighter>
