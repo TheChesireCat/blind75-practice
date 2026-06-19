@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+html,
+body {
+  background: #0d1117;
+  color: #e6edf3;
+}
+
+/* Styling for the LeetCode HTML problem descriptions */
+.problem-body p {
+  margin: 0 0 0.85rem;
+  line-height: 1.65;
+}
+.problem-body ul,
+.problem-body ol {
+  margin: 0 0 0.85rem 1.25rem;
+  list-style: revert;
+}
+.problem-body li {
+  margin: 0.25rem 0;
+}
+.problem-body code {
+  background: #21262d;
+  border: 1px solid #30363d;
+  border-radius: 4px;
+  padding: 0.1rem 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+}
+.problem-body pre {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 0.85rem;
+  overflow-x: auto;
+  margin: 0 0 0.85rem;
+}
+.problem-body pre code {
+  background: none;
+  border: none;
+  padding: 0;
+}
+.problem-body strong {
+  color: #fff;
+  font-weight: 600;
+}
+.problem-body img {
+  max-width: 100%;
+  border-radius: 6px;
+  margin: 0.5rem 0;
+}
+.problem-body a {
+  color: #2f81f7;
+  text-decoration: underline;
+}

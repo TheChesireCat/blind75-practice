@@ -1,0 +1,4128 @@
+id,type,l_slug,Name,no,title,difficulty,tags,description,solution
+1,Array,https://leetcode.com/problems/two-sum/,Two Sum,1,Two Sum,Easy,"['array', 'hash-table']","<p>Given an array of integers <code>nums</code>&nbsp;and an integer <code>target</code>, return <em>indices of the two numbers such that they add up to <code>target</code></em>.</p>
+
+<p>You may assume that each input would have <strong><em>exactly</em> one solution</strong>, and you may not use the <em>same</em> element twice.</p>
+
+<p>You can return the answer in any order.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input:</strong> nums = [2,7,11,15], target = 9
+<strong>Output:</strong> [0,1]
+<strong>Explanation:</strong> Because nums[0] + nums[1] == 9, we return [0, 1].
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> nums = [3,2,4], target = 6
+<strong>Output:</strong> [1,2]
+</pre>
+
+<p><strong class=""example"">Example 3:</strong></p>
+
+<pre><strong>Input:</strong> nums = [3,3], target = 6
+<strong>Output:</strong> [0,1]
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+        <li><code>2 &lt;= nums.length &lt;= 10<sup>4</sup></code></li>
+        <li><code>-10<sup>9</sup> &lt;= nums[i] &lt;= 10<sup>9</sup></code></li>
+        <li><code>-10<sup>9</sup> &lt;= target &lt;= 10<sup>9</sup></code></li>
+        <li><strong>Only one valid answer exists.</strong></li>
+</ul>
+
+<p>&nbsp;</p>
+<strong>Follow-up:&nbsp;</strong>Can you come up with an algorithm that is less than <code>O(n<sup>2</sup>)</code><font face=""monospace"">&nbsp;</font>time complexity?","def twoSum(nums, target):
+    # Create a hash table to store the value and its index
+    hash_table = {}
+    
+    # Iterate over the array
+    for i, num in enumerate(nums):
+        # Calculate the complement
+        complement = target - num
+        
+        # Check if the complement is already in the hash table
+        if complement in hash_table:
+            # If found, return the indices
+            return [hash_table[complement], i]
+        
+        # Store the current number with its index in the hash table
+        hash_table[num] = i
+
+    # In case no solution is found (not expected as per problem statement)
+    return []
+
+# Test the function with the provided examples
+print(twoSum([2,7,11,15], 9)) # Output: [0, 1]
+print(twoSum([3,2,4], 6))     # Output: [1, 2]
+print(twoSum([3,3], 6))       # Output: [0, 1]"
+2,Array,https://leetcode.com/problems/best-time-to-buy-and-sell-stock/,Best Time to Buy and Sell Stock,121,Best Time to Buy and Sell Stock,Easy,"['array', 'dynamic-programming']","<p>You are given an array <code>prices</code> where <code>prices[i]</code> is the price of a given stock on the <code>i<sup>th</sup></code> day.</p>
+
+<p>You want to maximize your profit by choosing a <strong>single day</strong> to buy one stock and choosing a <strong>different day in the future</strong> to sell that stock.</p>
+
+<p>Return <em>the maximum profit you can achieve from this transaction</em>. If you cannot achieve any profit, return <code>0</code>.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input:</strong> prices = [7,1,5,3,6,4]
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.
+Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell.
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> prices = [7,6,4,3,1]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> In this case, no transactions are done and the max profit = 0.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= prices.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>0 &lt;= prices[i] &lt;= 10<sup>4</sup></code></li>
+</ul>
+","def maxProfit(prices):
+    # Initialize the minimum price and maximum profit
+    min_price = float('inf')
+    max_profit = 0
+    
+    # Iterate through the list of prices
+    for price in prices:
+        # Update the minimum price if a lower price is found
+        if price < min_price:
+            min_price = price
+        # Calculate the profit if selling at the current price
+        elif price - min_price > max_profit:
+            max_profit = price - min_price
+            
+    return max_profit
+
+# Test the function with the provided examples
+print(maxProfit([7, 1, 5, 3, 6, 4])) # Output: 5
+print(maxProfit([7, 6, 4, 3, 1]))    # Output: 0"
+3,Array,https://leetcode.com/problems/contains-duplicate/,Contains Duplicate,217,Contains Duplicate,Easy,"['array', 'hash-table', 'sorting']","<p>Given an integer array <code>nums</code>, return <code>true</code> if any value appears <strong>at least twice</strong> in the array, and return <code>false</code> if every element is distinct.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+<pre><strong>Input:</strong> nums = [1,2,3,1]
+<strong>Output:</strong> true
+</pre><p><strong class=""example"">Example 2:</strong></p>
+<pre><strong>Input:</strong> nums = [1,2,3,4]
+<strong>Output:</strong> false
+</pre><p><strong class=""example"">Example 3:</strong></p>
+<pre><strong>Input:</strong> nums = [1,1,1,3,3,4,3,2,4,2]
+<strong>Output:</strong> true
+</pre>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>-10<sup>9</sup> &lt;= nums[i] &lt;= 10<sup>9</sup></code></li>
+</ul>
+","def containsDuplicate(nums):
+    # Create an empty hash set
+    seen = set()
+    
+    # Iterate through the array
+    for num in nums:
+        # If the number is already in the set, return true
+        if num in seen:
+            return True
+        # Add the number to the set
+        seen.add(num)
+    
+    # Return false if no duplicate is found
+    return False
+
+# Test the function with the provided examples
+print(containsDuplicate([1, 2, 3, 1]))        # Output: True
+print(containsDuplicate([1, 2, 3, 4]))        # Output: False
+print(containsDuplicate([1, 1, 1, 3, 3, 4, 3, 2, 4, 2])) # Output: True"
+4,Array,https://leetcode.com/problems/product-of-array-except-self/,Product of Array Except Self,238,Product of Array Except Self,Medium,"['array', 'prefix-sum']","<p>Given an integer array <code>nums</code>, return <em>an array</em> <code>answer</code> <em>such that</em> <code>answer[i]</code> <em>is equal to the product of all the elements of</em> <code>nums</code> <em>except</em> <code>nums[i]</code>.</p>
+
+<p>The product of any prefix or suffix of <code>nums</code> is <strong>guaranteed</strong> to fit in a <strong>32-bit</strong> integer.</p>
+
+<p>You must write an algorithm that runs in&nbsp;<code>O(n)</code>&nbsp;time and without using the division operation.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+<pre><strong>Input:</strong> nums = [1,2,3,4]
+<strong>Output:</strong> [24,12,8,6]
+</pre><p><strong class=""example"">Example 2:</strong></p>
+<pre><strong>Input:</strong> nums = [-1,1,0,-3,3]
+<strong>Output:</strong> [0,0,9,0,0]
+</pre>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>2 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>-30 &lt;= nums[i] &lt;= 30</code></li>
+	<li>The product of any prefix or suffix of <code>nums</code> is <strong>guaranteed</strong> to fit in a <strong>32-bit</strong> integer.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong>Follow up:</strong>&nbsp;Can you solve the problem in <code>O(1)</code>&nbsp;extra&nbsp;space complexity? (The output array <strong>does not</strong> count as extra space for space complexity analysis.)</p>
+","def productExceptSelf(nums):
+    length = len(nums)
+    answer = [1] * length
+
+    left_product = 1
+    for i in range(length):
+        answer[i] = left_product
+        left_product *= nums[i]
+
+    right_product = 1
+    for i in range(length - 1, -1, -1):
+        answer[i] *= right_product
+        right_product *= nums[i]
+
+    return answer
+
+# Test the function with the provided examples
+print(productExceptSelf([1, 2, 3, 4]))       # Output: [24, 12, 8, 6]
+print(productExceptSelf([-1, 1, 0, -3, 3]))  # Output: [0, 0, 9, 0, 0]"
+5,Array,https://leetcode.com/problems/maximum-subarray/,Maximum Subarray,53,Maximum Subarray,Medium,"['array', 'divide-and-conquer', 'dynamic-programming']","<p>Given an integer array <code>nums</code>, find the <span data-keyword=""subarray-nonempty"" class="" cursor-pointer relative text-dark-blue-s text-sm""><div class=""popover-wrapper inline-block"" data-headlessui-state=""""><div><div aria-expanded=""false"" data-headlessui-state="""" id=""headlessui-popover-button-:rh:""><div>subarray</div></div><div style=""position: fixed; z-index: 40; inset: 0px auto auto 0px; transform: translate(296px, 185px);""></div></div></div></span> with the largest sum, and return <em>its sum</em>.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input:</strong> nums = [-2,1,-3,4,-1,2,1,-5,4]
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> The subarray [4,-1,2,1] has the largest sum 6.
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> nums = [1]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> The subarray [1] has the largest sum 1.
+</pre>
+
+<p><strong class=""example"">Example 3:</strong></p>
+
+<pre><strong>Input:</strong> nums = [5,4,-1,7,8]
+<strong>Output:</strong> 23
+<strong>Explanation:</strong> The subarray [5,4,-1,7,8] has the largest sum 23.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>-10<sup>4</sup> &lt;= nums[i] &lt;= 10<sup>4</sup></code></li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong>Follow up:</strong> If you have figured out the <code>O(n)</code> solution, try coding another solution using the <strong>divide and conquer</strong> approach, which is more subtle.</p>
+","def maxSubArray(nums):
+    max_so_far = nums[0]
+    max_ending_here = 0
+    
+    for num in nums:
+        max_ending_here += num
+        if max_so_far < max_ending_here:
+            max_so_far = max_ending_here
+        if max_ending_here < 0:
+            max_ending_here = 0
+            
+    return max_so_far
+
+# Test the function with the provided examples
+print(maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4])) # Output: 6
+print(maxSubArray([1]))                             # Output: 1
+print(maxSubArray([5, 4, -1, 7, 8]))                # Output: 23"
+6,Array,https://leetcode.com/problems/maximum-product-subarray/,Maximum Product Subarray,152,Maximum Product Subarray,Medium,"['array', 'dynamic-programming']","<p>Given an integer array <code>nums</code>, find a <span data-keyword=""subarray-nonempty"" class="" cursor-pointer relative text-dark-blue-s text-sm""><div class=""popover-wrapper inline-block"" data-headlessui-state=""""><div><div aria-expanded=""false"" data-headlessui-state="""" id=""headlessui-popover-button-:rt:""><div>subarray</div></div><div style=""position: fixed; z-index: 40; inset: 0px auto auto 0px; transform: translate(282px, 183px);""></div></div></div></span> that has the largest product, and return <em>the product</em>.</p>
+
+<p>The test cases are generated so that the answer will fit in a <strong>32-bit</strong> integer.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input:</strong> nums = [2,3,-2,4]
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> [2,3] has the largest product 6.
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> nums = [-2,0,-1]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> The result cannot be 2, because [-2,-1] is not a subarray.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= nums.length &lt;= 2 * 10<sup>4</sup></code></li>
+	<li><code>-10 &lt;= nums[i] &lt;= 10</code></li>
+	<li>The product of any prefix or suffix of <code>nums</code> is <strong>guaranteed</strong> to fit in a <strong>32-bit</strong> integer.</li>
+</ul>
+","def maxProduct(nums):
+    if not nums:
+        return 0
+
+    max_product = max_temp = min_temp = nums[0]
+
+    for i in range(1, len(nums)):
+        if nums[i] < 0:
+            max_temp, min_temp = min_temp, max_temp
+        
+        max_temp = max(nums[i], max_temp * nums[i])
+        min_temp = min(nums[i], min_temp * nums[i])
+
+        max_product = max(max_product, max_temp)
+
+    return max_product
+
+# Test the function with the provided examples
+print(maxProduct([2, 3, -2, 4])) # Output: 6
+print(maxProduct([-2, 0, -1]))   # Output: 0"
+7,Array,https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/,Find Minimum in Rotated Sorted Array,153,Find Minimum in Rotated Sorted Array,Medium,"['array', 'binary-search']","<p>Suppose an array of length <code>n</code> sorted in ascending order is <strong>rotated</strong> between <code>1</code> and <code>n</code> times. For example, the array <code>nums = [0,1,2,4,5,6,7]</code> might become:</p>
+
+<ul>
+	<li><code>[4,5,6,7,0,1,2]</code> if it was rotated <code>4</code> times.</li>
+	<li><code>[0,1,2,4,5,6,7]</code> if it was rotated <code>7</code> times.</li>
+</ul>
+
+<p>Notice that <strong>rotating</strong> an array <code>[a[0], a[1], a[2], ..., a[n-1]]</code> 1 time results in the array <code>[a[n-1], a[0], a[1], a[2], ..., a[n-2]]</code>.</p>
+
+<p>Given the sorted rotated array <code>nums</code> of <strong>unique</strong> elements, return <em>the minimum element of this array</em>.</p>
+
+<p>You must write an algorithm that runs in&nbsp;<code>O(log n) time.</code></p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input:</strong> nums = [3,4,5,1,2]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> The original array was [1,2,3,4,5] rotated 3 times.
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> nums = [4,5,6,7,0,1,2]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> The original array was [0,1,2,4,5,6,7] and it was rotated 4 times.
+</pre>
+
+<p><strong class=""example"">Example 3:</strong></p>
+
+<pre><strong>Input:</strong> nums = [11,13,15,17]
+<strong>Output:</strong> 11
+<strong>Explanation:</strong> The original array was [11,13,15,17] and it was rotated 4 times. 
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>n == nums.length</code></li>
+	<li><code>1 &lt;= n &lt;= 5000</code></li>
+	<li><code>-5000 &lt;= nums[i] &lt;= 5000</code></li>
+	<li>All the integers of <code>nums</code> are <strong>unique</strong>.</li>
+	<li><code>nums</code> is sorted and rotated between <code>1</code> and <code>n</code> times.</li>
+</ul>
+","def findMin(nums):
+    left, right = 0, len(nums) - 1
+
+    while left < right:
+        mid = left + (right - left) // 2
+        if nums[mid] > nums[right]:
+            left = mid + 1
+        else:
+            right = mid
+
+    return nums[left]
+
+# Test the function with the provided examples
+print(findMin([3, 4, 5, 1, 2]))  # Output: 1
+print(findMin([4, 5, 6, 7, 0, 1, 2]))  # Output: 0
+print(findMin([11, 13, 15, 17]))  # Output: 11"
+8,Array,https://leetcode.com/problems/search-in-rotated-sorted-array/,Search in Rotated Sorted Array,33,Search in Rotated Sorted Array,Medium,"['array', 'binary-search']","<p>There is an integer array <code>nums</code> sorted in ascending order (with <strong>distinct</strong> values).</p>
+
+<p>Prior to being passed to your function, <code>nums</code> is <strong>possibly rotated</strong> at an unknown pivot index <code>k</code> (<code>1 &lt;= k &lt; nums.length</code>) such that the resulting array is <code>[nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]]</code> (<strong>0-indexed</strong>). For example, <code>[0,1,2,4,5,6,7]</code> might be rotated at pivot index <code>3</code> and become <code>[4,5,6,7,0,1,2]</code>.</p>
+
+<p>Given the array <code>nums</code> <strong>after</strong> the possible rotation and an integer <code>target</code>, return <em>the index of </em><code>target</code><em> if it is in </em><code>nums</code><em>, or </em><code>-1</code><em> if it is not in </em><code>nums</code>.</p>
+
+<p>You must write an algorithm with <code>O(log n)</code> runtime complexity.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+<pre><strong>Input:</strong> nums = [4,5,6,7,0,1,2], target = 0
+<strong>Output:</strong> 4
+</pre><p><strong class=""example"">Example 2:</strong></p>
+<pre><strong>Input:</strong> nums = [4,5,6,7,0,1,2], target = 3
+<strong>Output:</strong> -1
+</pre><p><strong class=""example"">Example 3:</strong></p>
+<pre><strong>Input:</strong> nums = [1], target = 0
+<strong>Output:</strong> -1
+</pre>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= nums.length &lt;= 5000</code></li>
+	<li><code>-10<sup>4</sup> &lt;= nums[i] &lt;= 10<sup>4</sup></code></li>
+	<li>All values of <code>nums</code> are <strong>unique</strong>.</li>
+	<li><code>nums</code> is an ascending array that is possibly rotated.</li>
+	<li><code>-10<sup>4</sup> &lt;= target &lt;= 10<sup>4</sup></code></li>
+</ul>
+","def search(nums, target):
+    left, right = 0, len(nums) - 1
+
+    while left <= right:
+        mid = (left + right) // 2
+        if nums[mid] == target:
+            return mid
+
+        # Check if the left half is sorted
+        if nums[left] <= nums[mid]:
+            if nums[left] <= target < nums[mid]:
+                right = mid - 1
+            else:
+                left = mid + 1
+        # The right half must be sorted
+        else:
+            if nums[mid] < target <= nums[right]:
+                left = mid + 1
+            else:
+                right = mid - 1
+
+    return -1
+
+# Example usage
+print(search([4,5,6,7,0,1,2], 0)) # Output: 4
+print(search([4,5,6,7,0,1,2], 3)) # Output: -1
+print(search([1], 0))             # Output: -1"
+9,Array,https://leetcode.com/problems/3sum/,3 Sum,15,3Sum,Medium,"['array', 'two-pointers', 'sorting']","<p>Given an integer array nums, return all the triplets <code>[nums[i], nums[j], nums[k]]</code> such that <code>i != j</code>, <code>i != k</code>, and <code>j != k</code>, and <code>nums[i] + nums[j] + nums[k] == 0</code>.</p>
+
+<p>Notice that the solution set must not contain duplicate triplets.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input:</strong> nums = [-1,0,1,2,-1,-4]
+<strong>Output:</strong> [[-1,-1,2],[-1,0,1]]
+<strong>Explanation:</strong> 
+nums[0] + nums[1] + nums[2] = (-1) + 0 + 1 = 0.
+nums[1] + nums[2] + nums[4] = 0 + 1 + (-1) = 0.
+nums[0] + nums[3] + nums[4] = (-1) + 2 + (-1) = 0.
+The distinct triplets are [-1,0,1] and [-1,-1,2].
+Notice that the order of the output and the order of the triplets does not matter.
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> nums = [0,1,1]
+<strong>Output:</strong> []
+<strong>Explanation:</strong> The only possible triplet does not sum up to 0.
+</pre>
+
+<p><strong class=""example"">Example 3:</strong></p>
+
+<pre><strong>Input:</strong> nums = [0,0,0]
+<strong>Output:</strong> [[0,0,0]]
+<strong>Explanation:</strong> The only possible triplet sums up to 0.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>3 &lt;= nums.length &lt;= 3000</code></li>
+	<li><code>-10<sup>5</sup> &lt;= nums[i] &lt;= 10<sup>5</sup></code></li>
+</ul>
+","def threeSum(nums):
+    nums.sort()
+    triplets = []
+
+    for i in range(len(nums) - 2):
+        # Skip duplicate values
+        if i > 0 and nums[i] == nums[i - 1]:
+            continue
+
+        left, right = i + 1, len(nums) - 1
+        while left < right:
+            total = nums[i] + nums[left] + nums[right]
+            if total < 0:
+                left += 1
+            elif total > 0:
+                right -= 1
+            else:
+                triplets.append([nums[i], nums[left], nums[right]])
+                while left < right and nums[left] == nums[left + 1]:
+                    left += 1
+                while left < right and nums[right] == nums[right - 1]:
+                    right -= 1
+                left += 1
+                right -= 1
+
+    return triplets
+
+# Test the function with the provided examples
+print(threeSum([-1, 0, 1, 2, -1, -4]))  # Output: [[-1, -1, 2], [-1, 0, 1]]
+print(threeSum([0, 1, 1]))              # Output: []
+print(threeSum([0, 0, 0]))              # Output: [[0, 0, 0]]"
+10,Array,https://leetcode.com/problems/container-with-most-water/,Container With Most Water,11,Container With Most Water,Medium,"['array', 'two-pointers', 'greedy']","<p>You are given an integer array <code>height</code> of length <code>n</code>. There are <code>n</code> vertical lines drawn such that the two endpoints of the <code>i<sup>th</sup></code> line are <code>(i, 0)</code> and <code>(i, height[i])</code>.</p>
+
+<p>Find two lines that together with the x-axis form a container, such that the container contains the most water.</p>
+
+<p>Return <em>the maximum amount of water a container can store</em>.</p>
+
+<p><strong>Notice</strong> that you may not slant the container.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+<img alt="""" src=""https://s3-lc-upload.s3.amazonaws.com/uploads/2018/07/17/question_11.jpg"" style=""width: 600px; height: 287px;"">
+<pre><strong>Input:</strong> height = [1,8,6,2,5,4,8,3,7]
+<strong>Output:</strong> 49
+<strong>Explanation:</strong> The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. In this case, the max area of water (blue section) the container can contain is 49.
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> height = [1,1]
+<strong>Output:</strong> 1
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>n == height.length</code></li>
+	<li><code>2 &lt;= n &lt;= 10<sup>5</sup></code></li>
+	<li><code>0 &lt;= height[i] &lt;= 10<sup>4</sup></code></li>
+</ul>
+","def maxArea(height):
+    left, right = 0, len(height) - 1
+    max_area = 0
+
+    while left < right:
+        width = right - left
+        current_area = min(height[left], height[right]) * width
+        max_area = max(max_area, current_area)
+
+        # Move the smaller height pointer inward
+        if height[left] < height[right]:
+            left += 1
+        else:
+            right -= 1
+
+    return max_area
+
+# Example usage
+print(maxArea([1,8,6,2,5,4,8,3,7]))  # Output: 49
+print(maxArea([1,1]))                # Output: 1"
+11,Binary,https://leetcode.com/problems/sum-of-two-integers/,Sum of Two Integers,371,Sum of Two Integers,Medium,"['math', 'bit-manipulation']","<p>Given two integers <code>a</code> and <code>b</code>, return <em>the sum of the two integers without using the operators</em> <code>+</code> <em>and</em> <code>-</code>.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+<pre><strong>Input:</strong> a = 1, b = 2
+<strong>Output:</strong> 3
+</pre><p><strong class=""example"">Example 2:</strong></p>
+<pre><strong>Input:</strong> a = 2, b = 3
+<strong>Output:</strong> 5
+</pre>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>-1000 &lt;= a, b &lt;= 1000</code></li>
+</ul>
+","def getSum(a, b):
+    # 32 bits integer max
+    MASK = 0xFFFFFFFF
+    # Max integer
+    INT_MAX = 0x7FFFFFFF
+    
+    while b != 0:
+        # ^ gets sum of bits where at least one of the bits is not set
+        a, b = (a ^ b) & MASK, ((a & b) << 1) & MASK
+
+    # for negative numbers, we need to perform a complement
+    return a if a <= INT_MAX else ~(a ^ MASK)
+
+# Example usage
+print(getSum(1, 2))  # Output: 3
+print(getSum(2, 3))  # Output: 5"
+12,Binary,https://leetcode.com/problems/number-of-1-bits/,Number of 1 Bits,191,Number of 1 Bits,Easy,"['divide-and-conquer', 'bit-manipulation']","<p>Write a function that takes&nbsp;the binary representation of an unsigned integer and returns the number of '1' bits it has (also known as the <a href=""http://en.wikipedia.org/wiki/Hamming_weight"" target=""_blank"">Hamming weight</a>).</p>
+
+<p><strong>Note:</strong></p>
+
+<ul>
+	<li>Note that in some languages, such as Java, there is no unsigned integer type. In this case, the input will be given as a signed integer type. It should not affect your implementation, as the integer's internal binary representation is the same, whether it is signed or unsigned.</li>
+	<li>In Java, the compiler represents the signed integers using <a href=""https://en.wikipedia.org/wiki/Two%27s_complement"" target=""_blank"">2's complement notation</a>. Therefore, in <strong class=""example"">Example 3</strong>, the input represents the signed integer. <code>-3</code>.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input:</strong> n = 00000000000000000000000000001011
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> The input binary string <strong>00000000000000000000000000001011</strong> has a total of three '1' bits.
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> n = 00000000000000000000000010000000
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> The input binary string <strong>00000000000000000000000010000000</strong> has a total of one '1' bit.
+</pre>
+
+<p><strong class=""example"">Example 3:</strong></p>
+
+<pre><strong>Input:</strong> n = 11111111111111111111111111111101
+<strong>Output:</strong> 31
+<strong>Explanation:</strong> The input binary string <strong>11111111111111111111111111111101</strong> has a total of thirty one '1' bits.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li>The input must be a <strong>binary string</strong> of length <code>32</code>.</li>
+</ul>
+
+<p>&nbsp;</p>
+<strong>Follow up:</strong> If this function is called many times, how would you optimize it?","def hammingWeight(n):
+    count = 0
+    while n:
+        count += n & 1
+        n >>= 1
+    return count
+
+# Example usage
+print(hammingWeight(0b00000000000000000000000000001011))  # Output: 3
+print(hammingWeight(0b00000000000000000000000010000000))  # Output: 1
+print(hammingWeight(0b11111111111111111111111111111101))  # Output: 31"
+13,Binary,https://leetcode.com/problems/counting-bits/,Counting Bits,338,Counting Bits,Easy,"['dynamic-programming', 'bit-manipulation']","<p>Given an integer <code>n</code>, return <em>an array </em><code>ans</code><em> of length </em><code>n + 1</code><em> such that for each </em><code>i</code><em> </em>(<code>0 &lt;= i &lt;= n</code>)<em>, </em><code>ans[i]</code><em> is the <strong>number of </strong></em><code>1</code><em><strong>'s</strong> in the binary representation of </em><code>i</code>.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input:</strong> n = 2
+<strong>Output:</strong> [0,1,1]
+<strong>Explanation:</strong>
+0 --&gt; 0
+1 --&gt; 1
+2 --&gt; 10
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> n = 5
+<strong>Output:</strong> [0,1,1,2,1,2]
+<strong>Explanation:</strong>
+0 --&gt; 0
+1 --&gt; 1
+2 --&gt; 10
+3 --&gt; 11
+4 --&gt; 100
+5 --&gt; 101
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>0 &lt;= n &lt;= 10<sup>5</sup></code></li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong>Follow up:</strong></p>
+
+<ul>
+	<li>It is very easy to come up with a solution with a runtime of <code>O(n log n)</code>. Can you do it in linear time <code>O(n)</code> and possibly in a single pass?</li>
+	<li>Can you do it without using any built-in function (i.e., like <code>__builtin_popcount</code> in C++)?</li>
+</ul>
+","def countBits(n):
+    ans = [0] * (n + 1)
+    for i in range(1, n + 1):
+        ans[i] = ans[i >> 1] + (i & 1)
+    return ans
+
+# Example usage
+print(countBits(2))  # Output: [0, 1, 1]
+print(countBits(5))  # Output: [0, 1, 1, 2, 1, 2]"
+14,Binary,https://leetcode.com/problems/missing-number/,Missing Number,268,Missing Number,Easy,"['array', 'hash-table', 'math', 'binary-search', 'bit-manipulation', 'sorting']","<p>Given an array <code>nums</code> containing <code>n</code> distinct numbers in the range <code>[0, n]</code>, return <em>the only number in the range that is missing from the array.</em></p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input:</strong> nums = [3,0,1]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> n = 3 since there are 3 numbers, so all numbers are in the range [0,3]. 2 is the missing number in the range since it does not appear in nums.
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> nums = [0,1]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> n = 2 since there are 2 numbers, so all numbers are in the range [0,2]. 2 is the missing number in the range since it does not appear in nums.
+</pre>
+
+<p><strong class=""example"">Example 3:</strong></p>
+
+<pre><strong>Input:</strong> nums = [9,6,4,2,3,5,7,0,1]
+<strong>Output:</strong> 8
+<strong>Explanation:</strong> n = 9 since there are 9 numbers, so all numbers are in the range [0,9]. 8 is the missing number in the range since it does not appear in nums.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>n == nums.length</code></li>
+	<li><code>1 &lt;= n &lt;= 10<sup>4</sup></code></li>
+	<li><code>0 &lt;= nums[i] &lt;= n</code></li>
+	<li>All the numbers of <code>nums</code> are <strong>unique</strong>.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong>Follow up:</strong> Could you implement a solution using only <code>O(1)</code> extra space complexity and <code>O(n)</code> runtime complexity?</p>
+","def missingNumber(nums):
+    n = len(nums)
+    expected_sum = n * (n + 1) // 2
+    actual_sum = sum(nums)
+    return expected_sum - actual_sum
+
+# Example usage
+print(missingNumber([3, 0, 1]))        # Output: 2
+print(missingNumber([0, 1]))          # Output: 2
+print(missingNumber([9,6,4,2,3,5,7,0,1])) # Output: 8"
+15,Binary,https://leetcode.com/problems/reverse-bits/,Reverse Bits,190,Reverse Bits,Easy,"['divide-and-conquer', 'bit-manipulation']","<p>Reverse bits of a given 32 bits unsigned integer.</p>
+
+<p><strong>Note:</strong></p>
+
+<ul>
+	<li>Note that in some languages, such as Java, there is no unsigned integer type. In this case, both input and output will be given as a signed integer type. They should not affect your implementation, as the integer's internal binary representation is the same, whether it is signed or unsigned.</li>
+	<li>In Java, the compiler represents the signed integers using <a href=""https://en.wikipedia.org/wiki/Two%27s_complement"" target=""_blank"">2's complement notation</a>. Therefore, in <strong class=""example"">Example 2</strong> above, the input represents the signed integer <code>-3</code> and the output represents the signed integer <code>-1073741825</code>.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input:</strong> n = 00000010100101000001111010011100
+<strong>Output:</strong>    964176192 (00111001011110000010100101000000)
+<strong>Explanation: </strong>The input binary string <strong>00000010100101000001111010011100</strong> represents the unsigned integer 43261596, so return 964176192 which its binary representation is <strong>00111001011110000010100101000000</strong>.
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> n = 11111111111111111111111111111101
+<strong>Output:</strong>   3221225471 (10111111111111111111111111111111)
+<strong>Explanation: </strong>The input binary string <strong>11111111111111111111111111111101</strong> represents the unsigned integer 4294967293, so return 3221225471 which its binary representation is <strong>10111111111111111111111111111111</strong>.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li>The input must be a <strong>binary string</strong> of length <code>32</code></li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong>Follow up:</strong> If this function is called many times, how would you optimize it?</p>
+","def reverseBits(n):
+    result = 0
+    for i in range(32):
+        result = (result << 1) | (n & 1)
+        n >>= 1
+    return result
+
+# Example usage
+print(reverseBits(0b00000010100101000001111010011100)) # Output: 964176192
+print(reverseBits(0b11111111111111111111111111111101)) # Output: 3221225471"
+16,DP,https://leetcode.com/problems/climbing-stairs/,Climbing Stairs,70,Climbing Stairs,Easy,"['math', 'dynamic-programming', 'memoization']","<p>You are climbing a staircase. It takes <code>n</code> steps to reach the top.</p>
+
+<p>Each time you can either climb <code>1</code> or <code>2</code> steps. In how many distinct ways can you climb to the top?</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input:</strong> n = 2
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> There are two ways to climb to the top.
+1. 1 step + 1 step
+2. 2 steps
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> n = 3
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> There are three ways to climb to the top.
+1. 1 step + 1 step + 1 step
+2. 1 step + 2 steps
+3. 2 steps + 1 step
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= n &lt;= 45</code></li>
+</ul>
+","def climbStairs(n):
+    if n <= 2:
+        return n
+
+    first, second = 1, 2
+    for i in range(3, n + 1):
+        first, second = second, first + second
+
+    return second
+
+# Example usage
+print(climbStairs(2))  # Output: 2
+print(climbStairs(3))  # Output: 3"
+17,DP,https://leetcode.com/problems/coin-change/,Coin Change,322,Coin Change,Medium,"['array', 'dynamic-programming', 'breadth-first-search']","<p>You are given an integer array <code>coins</code> representing coins of different denominations and an integer <code>amount</code> representing a total amount of money.</p>
+
+<p>Return <em>the fewest number of coins that you need to make up that amount</em>. If that amount of money cannot be made up by any combination of the coins, return <code>-1</code>.</p>
+
+<p>You may assume that you have an infinite number of each kind of coin.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input:</strong> coins = [1,2,5], amount = 11
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> 11 = 5 + 5 + 1
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> coins = [2], amount = 3
+<strong>Output:</strong> -1
+</pre>
+
+<p><strong class=""example"">Example 3:</strong></p>
+
+<pre><strong>Input:</strong> coins = [1], amount = 0
+<strong>Output:</strong> 0
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= coins.length &lt;= 12</code></li>
+	<li><code>1 &lt;= coins[i] &lt;= 2<sup>31</sup> - 1</code></li>
+	<li><code>0 &lt;= amount &lt;= 10<sup>4</sup></code></li>
+</ul>
+","def coinChange(coins, amount):
+    # Initialize DP array with infinity for all amounts except 0
+    dp = [float('inf')] * (amount + 1)
+    dp[0] = 0
+
+    for coin in coins:
+        for x in range(coin, amount + 1):
+            dp[x] = min(dp[x], dp[x - coin] + 1)
+
+    return dp[amount] if dp[amount] != float('inf') else -1
+
+# Example usage
+print(coinChange([1, 2, 5], 11)) # Output: 3
+print(coinChange([2], 3))       # Output: -1
+print(coinChange([1], 0))       # Output: 0"
+18,DP,https://leetcode.com/problems/longest-increasing-subsequence/,Longest Increasing Subsequence,300,Longest Increasing Subsequence,Medium,"['array', 'binary-search', 'dynamic-programming']","<p>Given an integer array <code>nums</code>, return <em>the length of the longest <strong>strictly increasing </strong></em><span data-keyword=""subsequence-array"" class="" cursor-pointer relative text-dark-blue-s text-sm""><div class=""popover-wrapper inline-block"" data-headlessui-state=""""><div><div aria-expanded=""false"" data-headlessui-state="""" id=""headlessui-popover-button-:rr:""><div><em><strong>subsequence</strong></em></div></div><div style=""position: fixed; z-index: 40; inset: 0px auto auto 0px; transform: translate(72px, 204px);""></div></div></div></span>.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input:</strong> nums = [10,9,2,5,3,7,101,18]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> The longest increasing subsequence is [2,3,7,101], therefore the length is 4.
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> nums = [0,1,0,3,2,3]
+<strong>Output:</strong> 4
+</pre>
+
+<p><strong class=""example"">Example 3:</strong></p>
+
+<pre><strong>Input:</strong> nums = [7,7,7,7,7,7,7]
+<strong>Output:</strong> 1
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= nums.length &lt;= 2500</code></li>
+	<li><code>-10<sup>4</sup> &lt;= nums[i] &lt;= 10<sup>4</sup></code></li>
+</ul>
+
+<p>&nbsp;</p>
+<p><b>Follow up:</b>&nbsp;Can you come up with an algorithm that runs in&nbsp;<code>O(n log(n))</code> time complexity?</p>
+","def lengthOfLIS(nums):
+    sub = []
+    for num in nums:
+        # Find the index in the subsequence where num should be inserted
+        i = binarySearch(sub, num)
+        # If num is greater than any element in sub
+        if i == len(sub):
+            sub.append(num)
+        # Replace the element in sub
+        else:
+            sub[i] = num
+    return len(sub)
+
+def binarySearch(sub, num):
+    left, right = 0, len(sub) - 1
+    while left <= right:
+        mid = left + (right - left) // 2
+        if sub[mid] < num:
+            left = mid + 1
+        else:
+            right = mid - 1
+    return left
+
+# Example usage
+print(lengthOfLIS([10,9,2,5,3,7,101,18])) # Output: 4
+print(lengthOfLIS([0,1,0,3,2,3]))         # Output: 4
+print(lengthOfLIS([7,7,7,7,7,7,7]))       # Output: 1"
+19,DP,https://leetcode.com/problems/longest-common-subsequence/,Longest Common Subsequence,1143,Longest Common Subsequence,Medium,"['string', 'dynamic-programming']","<p>Given two strings <code>text1</code> and <code>text2</code>, return <em>the length of their longest <strong>common subsequence</strong>. </em>If there is no <strong>common subsequence</strong>, return <code>0</code>.</p>
+
+<p>A <strong>subsequence</strong> of a string is a new string generated from the original string with some characters (can be none) deleted without changing the relative order of the remaining characters.</p>
+
+<ul>
+	<li>For example, <code>""ace""</code> is a subsequence of <code>""abcde""</code>.</li>
+</ul>
+
+<p>A <strong>common subsequence</strong> of two strings is a subsequence that is common to both strings.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input:</strong> text1 = ""abcde"", text2 = ""ace"" 
+<strong>Output:</strong> 3  
+<strong>Explanation:</strong> The longest common subsequence is ""ace"" and its length is 3.
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> text1 = ""abc"", text2 = ""abc""
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> The longest common subsequence is ""abc"" and its length is 3.
+</pre>
+
+<p><strong class=""example"">Example 3:</strong></p>
+
+<pre><strong>Input:</strong> text1 = ""abc"", text2 = ""def""
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> There is no such common subsequence, so the result is 0.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= text1.length, text2.length &lt;= 1000</code></li>
+	<li><code>text1</code> and <code>text2</code> consist of only lowercase English characters.</li>
+</ul>
+","def longestCommonSubsequence(text1, text2):
+    m, n = len(text1), len(text2)
+    dp = [[0] * (n + 1) for _ in range(m + 1)]
+
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            if text1[i - 1] == text2[j - 1]:
+                dp[i][j] = dp[i - 1][j - 1] + 1
+            else:
+                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
+
+    return dp[m][n]
+
+# Example usage
+print(longestCommonSubsequence(""abcde"", ""ace""))  # Output: 3
+print(longestCommonSubsequence(""abc"", ""abc""))    # Output: 3
+print(longestCommonSubsequence(""abc"", ""def""))    # Output: 0"
+20,DP,https://leetcode.com/problems/word-break/,Word Break Problem,139,Word Break,Medium,"['array', 'hash-table', 'string', 'dynamic-programming', 'trie', 'memoization']","<p>Given a string <code>s</code> and a dictionary of strings <code>wordDict</code>, return <code>true</code> if <code>s</code> can be segmented into a space-separated sequence of one or more dictionary words.</p>
+
+<p><strong>Note</strong> that the same word in the dictionary may be reused multiple times in the segmentation.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input:</strong> s = ""leetcode"", wordDict = [""leet"",""code""]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> Return true because ""leetcode"" can be segmented as ""leet code"".
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> s = ""applepenapple"", wordDict = [""apple"",""pen""]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> Return true because ""applepenapple"" can be segmented as ""apple pen apple"".
+Note that you are allowed to reuse a dictionary word.
+</pre>
+
+<p><strong class=""example"">Example 3:</strong></p>
+
+<pre><strong>Input:</strong> s = ""catsandog"", wordDict = [""cats"",""dog"",""sand"",""and"",""cat""]
+<strong>Output:</strong> false
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= s.length &lt;= 300</code></li>
+	<li><code>1 &lt;= wordDict.length &lt;= 1000</code></li>
+	<li><code>1 &lt;= wordDict[i].length &lt;= 20</code></li>
+	<li><code>s</code> and <code>wordDict[i]</code> consist of only lowercase English letters.</li>
+	<li>All the strings of <code>wordDict</code> are <strong>unique</strong>.</li>
+</ul>
+","def wordBreak(s, wordDict):
+    wordSet = set(wordDict)
+    dp = [False] * (len(s) + 1)
+    dp[0] = True
+
+    for i in range(1, len(s) + 1):
+        for j in range(i):
+            if dp[j] and s[j:i] in wordSet:
+                dp[i] = True
+                break
+
+    return dp[len(s)]
+
+# Example usage
+print(wordBreak(""leetcode"", [""leet"", ""code""]))      # Output: True
+print(wordBreak(""applepenapple"", [""apple"", ""pen""])) # Output: True
+print(wordBreak(""catsandog"", [""cats"", ""dog"", ""sand"", ""and"", ""cat""])) # Output: False"
+21,DP,https://leetcode.com/problems/combination-sum-iv/,Combination Sum,377,Combination Sum IV,Medium,"['array', 'dynamic-programming']","<p>Given an array of <strong>distinct</strong> integers <code>nums</code> and a target integer <code>target</code>, return <em>the number of possible combinations that add up to</em>&nbsp;<code>target</code>.</p>
+
+<p>The test cases are generated so that the answer can fit in a <strong>32-bit</strong> integer.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input:</strong> nums = [1,2,3], target = 4
+<strong>Output:</strong> 7
+<strong>Explanation:</strong>
+The possible combination ways are:
+(1, 1, 1, 1)
+(1, 1, 2)
+(1, 2, 1)
+(1, 3)
+(2, 1, 1)
+(2, 2)
+(3, 1)
+Note that different sequences are counted as different combinations.
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> nums = [9], target = 3
+<strong>Output:</strong> 0
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= nums.length &lt;= 200</code></li>
+	<li><code>1 &lt;= nums[i] &lt;= 1000</code></li>
+	<li>All the elements of <code>nums</code> are <strong>unique</strong>.</li>
+	<li><code>1 &lt;= target &lt;= 1000</code></li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong>Follow up:</strong> What if negative numbers are allowed in the given array? How does it change the problem? What limitation we need to add to the question to allow negative numbers?</p>
+","def combinationSum4(nums, target):
+    dp = [0] * (target + 1)
+    dp[0] = 1  # There is one way to reach a target of 0, which is to choose nothing
+
+    for total in range(1, target + 1):
+        for num in nums:
+            if total - num >= 0:
+                dp[total] += dp[total - num]
+
+    return dp[target]
+
+# Example usage
+print(combinationSum4([1, 2, 3], 4))  # Output: 7
+print(combinationSum4([9], 3))        # Output: 0"
+22,DP,https://leetcode.com/problems/house-robber/,House Robber,198,House Robber,Medium,"['array', 'dynamic-programming']","<p>You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, the only constraint stopping you from robbing each of them is that adjacent houses have security systems connected and <b>it will automatically contact the police if two adjacent houses were broken into on the same night</b>.</p>
+
+<p>Given an integer array <code>nums</code> representing the amount of money of each house, return <em>the maximum amount of money you can rob tonight <b>without alerting the police</b></em>.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input:</strong> nums = [1,2,3,1]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> Rob house 1 (money = 1) and then rob house 3 (money = 3).
+Total amount you can rob = 1 + 3 = 4.
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> nums = [2,7,9,3,1]
+<strong>Output:</strong> 12
+<strong>Explanation:</strong> Rob house 1 (money = 2), rob house 3 (money = 9) and rob house 5 (money = 1).
+Total amount you can rob = 2 + 9 + 1 = 12.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= nums.length &lt;= 100</code></li>
+	<li><code>0 &lt;= nums[i] &lt;= 400</code></li>
+</ul>
+","def rob(nums):
+    if len(nums) == 0:
+        return 0
+    if len(nums) <= 2:
+        return max(nums)
+
+    dp = [0] * len(nums)
+    dp[0], dp[1] = nums[0], max(nums[0], nums[1])
+
+    for i in range(2, len(nums)):
+        dp[i] = max(dp[i - 1], dp[i - 2] + nums[i])
+
+    return dp[-1]
+
+# Example usage
+print(rob([1,2,3,1]))  # Output: 4
+print(rob([2,7,9,3,1])) # Output: 12"
+23,DP,https://leetcode.com/problems/house-robber-ii/,House Robber II,213,House Robber II,Medium,"['array', 'dynamic-programming']","<p>You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed. All houses at this place are <strong>arranged in a circle.</strong> That means the first house is the neighbor of the last one. Meanwhile, adjacent houses have a security system connected, and&nbsp;<b>it will automatically contact the police if two adjacent houses were broken into on the same night</b>.</p>
+
+<p>Given an integer array <code>nums</code> representing the amount of money of each house, return <em>the maximum amount of money you can rob tonight <strong>without alerting the police</strong></em>.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input:</strong> nums = [2,3,2]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> You cannot rob house 1 (money = 2) and then rob house 3 (money = 2), because they are adjacent houses.
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> nums = [1,2,3,1]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> Rob house 1 (money = 1) and then rob house 3 (money = 3).
+Total amount you can rob = 1 + 3 = 4.
+</pre>
+
+<p><strong class=""example"">Example 3:</strong></p>
+
+<pre><strong>Input:</strong> nums = [1,2,3]
+<strong>Output:</strong> 3
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= nums.length &lt;= 100</code></li>
+	<li><code>0 &lt;= nums[i] &lt;= 1000</code></li>
+</ul>
+","def rob(nums):
+    def rob_linear(houses):
+        if not houses:
+            return 0
+        if len(houses) <= 2:
+            return max(houses)
+
+        dp = [0] * len(houses)
+        dp[0], dp[1] = houses[0], max(houses[0], houses[1])
+
+        for i in range(2, len(houses)):
+            dp[i] = max(dp[i - 1], dp[i - 2] + houses[i])
+
+        return dp[-1]
+
+    if len(nums) == 1:
+        return nums[0]
+
+    return max(rob_linear(nums[:-1]), rob_linear(nums[1:]))
+
+# Example usage
+print(rob([2, 3, 2]))   # Output: 3
+print(rob([1, 2, 3, 1])) # Output: 4
+print(rob([1, 2, 3]))    # Output: 3"
+24,DP,https://leetcode.com/problems/decode-ways/,Decode Ways,91,Decode Ways,Medium,"['string', 'dynamic-programming']","<p>A message containing letters from <code>A-Z</code> can be <strong>encoded</strong> into numbers using the following mapping:</p>
+
+<pre>'A' -&gt; ""1""
+'B' -&gt; ""2""
+...
+'Z' -&gt; ""26""
+</pre>
+
+<p>To <strong>decode</strong> an encoded message, all the digits must be grouped then mapped back into letters using the reverse of the mapping above (there may be multiple ways). For example, <code>""11106""</code> can be mapped into:</p>
+
+<ul>
+	<li><code>""AAJF""</code> with the grouping <code>(1 1 10 6)</code></li>
+	<li><code>""KJF""</code> with the grouping <code>(11 10 6)</code></li>
+</ul>
+
+<p>Note that the grouping <code>(1 11 06)</code> is invalid because <code>""06""</code> cannot be mapped into <code>'F'</code> since <code>""6""</code> is different from <code>""06""</code>.</p>
+
+<p>Given a string <code>s</code> containing only digits, return <em>the <strong>number</strong> of ways to <strong>decode</strong> it</em>.</p>
+
+<p>The test cases are generated so that the answer fits in a <strong>32-bit</strong> integer.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input:</strong> s = ""12""
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> ""12"" could be decoded as ""AB"" (1 2) or ""L"" (12).
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> s = ""226""
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> ""226"" could be decoded as ""BZ"" (2 26), ""VF"" (22 6), or ""BBF"" (2 2 6).
+</pre>
+
+<p><strong class=""example"">Example 3:</strong></p>
+
+<pre><strong>Input:</strong> s = ""06""
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> ""06"" cannot be mapped to ""F"" because of the leading zero (""6"" is different from ""06"").
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= s.length &lt;= 100</code></li>
+	<li><code>s</code> contains only digits and may contain leading zero(s).</li>
+</ul>
+","def numDecodings(s):
+    if not s or s[0] == '0':
+        return 0
+
+    # dp[i] will hold the number of ways to decode s[:i]
+    dp = [0] * (len(s) + 1)
+    dp[0:2] = [1, 1]  # Base case initialization
+
+    for i in range(2, len(s) + 1):
+        # Single digit decode is possible if the current digit is not '0'
+        if s[i - 1] != '0':
+            dp[i] += dp[i - 1]
+
+        # Two digit decode is possible if the two digit number is between 10 and 26
+        two_digit = int(s[i - 2:i])
+        if 10 <= two_digit <= 26:
+            dp[i] += dp[i - 2]
+
+    return dp[len(s)]
+
+# Example usage
+print(numDecodings(""12""))  # Output: 2
+print(numDecodings(""226"")) # Output: 3
+print(numDecodings(""06""))  # Output: 0"
+25,DP,https://leetcode.com/problems/unique-paths/,Unique Paths,62,Unique Paths,Medium,"['math', 'dynamic-programming', 'combinatorics']","<p>There is a robot on an <code>m x n</code> grid. The robot is initially located at the <strong>top-left corner</strong> (i.e., <code>grid[0][0]</code>). The robot tries to move to the <strong>bottom-right corner</strong> (i.e., <code>grid[m - 1][n - 1]</code>). The robot can only move either down or right at any point in time.</p>
+
+<p>Given the two integers <code>m</code> and <code>n</code>, return <em>the number of possible unique paths that the robot can take to reach the bottom-right corner</em>.</p>
+
+<p>The test cases are generated so that the answer will be less than or equal to <code>2 * 10<sup>9</sup></code>.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+<img src=""https://assets.leetcode.com/uploads/2018/10/22/robot_maze.png"" style=""width: 400px; height: 183px;"">
+<pre><strong>Input:</strong> m = 3, n = 7
+<strong>Output:</strong> 28
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> m = 3, n = 2
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> From the top-left corner, there are a total of 3 ways to reach the bottom-right corner:
+1. Right -&gt; Down -&gt; Down
+2. Down -&gt; Down -&gt; Right
+3. Down -&gt; Right -&gt; Down
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= m, n &lt;= 100</code></li>
+</ul>
+","def uniquePaths(m, n):
+    dp = [[1] * n for _ in range(m)]
+
+    for i in range(1, m):
+        for j in range(1, n):
+            dp[i][j] = dp[i-1][j] + dp[i][j-1]
+
+    return dp[m-1][n-1]
+
+# Example usage
+print(uniquePaths(3, 7))  # Output: 28
+print(uniquePaths(3, 2))  # Output: 3"
+26,DP,https://leetcode.com/problems/jump-game/,Jump Game,55,Jump Game,Medium,"['array', 'dynamic-programming', 'greedy']","<p>You are given an integer array <code>nums</code>. You are initially positioned at the array's <strong>first index</strong>, and each element in the array represents your maximum jump length at that position.</p>
+
+<p>Return <code>true</code><em> if you can reach the last index, or </em><code>false</code><em> otherwise</em>.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input:</strong> nums = [2,3,1,1,4]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> Jump 1 step from index 0 to 1, then 3 steps to the last index.
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> nums = [3,2,1,0,4]
+<strong>Output:</strong> false
+<strong>Explanation:</strong> You will always arrive at index 3 no matter what. Its maximum jump length is 0, which makes it impossible to reach the last index.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= nums.length &lt;= 10<sup>4</sup></code></li>
+	<li><code>0 &lt;= nums[i] &lt;= 10<sup>5</sup></code></li>
+</ul>
+","def canJump(nums):
+    max_reachable = 0
+    for i, jump in enumerate(nums):
+        # If the current position is beyond the maximum reachable index, return false
+        if i > max_reachable:
+            return False
+        # Update the maximum reachable index
+        max_reachable = max(max_reachable, i + jump)
+        # If we can reach or surpass the last index, return true
+        if max_reachable >= len(nums) - 1:
+            return True
+    return max_reachable >= len(nums) - 1
+
+# Example usage
+print(canJump([2,3,1,1,4]))  # Output: true
+print(canJump([3,2,1,0,4]))  # Output: false"
+27,Graph,https://leetcode.com/problems/clone-graph/,Clone Graph,133,Clone Graph,Medium,"['hash-table', 'depth-first-search', 'breadth-first-search', 'graph']","<p>Given a reference of a node in a <strong><a href=""https://en.wikipedia.org/wiki/Connectivity_(graph_theory)#Connected_graph"" target=""_blank"">connected</a></strong> undirected graph.</p>
+
+<p>Return a <a href=""https://en.wikipedia.org/wiki/Object_copying#Deep_copy"" target=""_blank""><strong>deep copy</strong></a> (clone) of the graph.</p>
+
+<p>Each node in the graph contains a value (<code>int</code>) and a list (<code>List[Node]</code>) of its neighbors.</p>
+
+<pre>class Node {
+    public int val;
+    public List&lt;Node&gt; neighbors;
+}
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>Test case format:</strong></p>
+
+<p>For simplicity, each node's value is the same as the node's index (1-indexed). For example, the first node with <code>val == 1</code>, the second node with <code>val == 2</code>, and so on. The graph is represented in the test case using an adjacency list.</p>
+
+<p><b>An adjacency list</b> is a collection of unordered <b>lists</b> used to represent a finite graph. Each list describes the set of neighbors of a node in the graph.</p>
+
+<p>The given node will always be the first node with <code>val = 1</code>. You must return the <strong>copy of the given node</strong> as a reference to the cloned graph.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2019/11/04/133_clone_graph_question.png"" style=""width: 454px; height: 500px;"">
+<pre><strong>Input:</strong> adjList = [[2,4],[1,3],[2,4],[1,3]]
+<strong>Output:</strong> [[2,4],[1,3],[2,4],[1,3]]
+<strong>Explanation:</strong> There are 4 nodes in the graph.
+1st node (val = 1)'s neighbors are 2nd node (val = 2) and 4th node (val = 4).
+2nd node (val = 2)'s neighbors are 1st node (val = 1) and 3rd node (val = 3).
+3rd node (val = 3)'s neighbors are 2nd node (val = 2) and 4th node (val = 4).
+4th node (val = 4)'s neighbors are 1st node (val = 1) and 3rd node (val = 3).
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2020/01/07/graph.png"" style=""width: 163px; height: 148px;"">
+<pre><strong>Input:</strong> adjList = [[]]
+<strong>Output:</strong> [[]]
+<strong>Explanation:</strong> Note that the input contains one empty list. The graph consists of only one node with val = 1 and it does not have any neighbors.
+</pre>
+
+<p><strong class=""example"">Example 3:</strong></p>
+
+<pre><strong>Input:</strong> adjList = []
+<strong>Output:</strong> []
+<strong>Explanation:</strong> This an empty graph, it does not have any nodes.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li>The number of nodes in the graph is in the range <code>[0, 100]</code>.</li>
+	<li><code>1 &lt;= Node.val &lt;= 100</code></li>
+	<li><code>Node.val</code> is unique for each node.</li>
+	<li>There are no repeated edges and no self-loops in the graph.</li>
+	<li>The Graph is connected and all nodes can be visited starting from the given node.</li>
+</ul>
+","class Node:
+    def __init__(self, val = 0, neighbors = None):
+        self.val = val
+        self.neighbors = neighbors if neighbors is not None else []
+
+def cloneGraph(node):
+    if not node:
+        return None
+
+    # Dictionary to save the cloned node reference
+    cloned_nodes = {}
+
+    def dfs(node):
+        if node in cloned_nodes:
+            return cloned_nodes[node]
+
+        copy = Node(node.val)
+        cloned_nodes[node] = copy
+
+        for neighbor in node.neighbors:
+            copy.neighbors.append(dfs(neighbor))
+
+        return copy
+
+    return dfs(node)
+
+# Example usage
+# Assuming a graph has been created and its reference is passed to the function"
+28,Graph,https://leetcode.com/problems/course-schedule/,Course Schedule,207,Course Schedule,Medium,"['depth-first-search', 'breadth-first-search', 'graph', 'topological-sort']","<p>There are a total of <code>numCourses</code> courses you have to take, labeled from <code>0</code> to <code>numCourses - 1</code>. You are given an array <code>prerequisites</code> where <code>prerequisites[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> indicates that you <strong>must</strong> take course <code>b<sub>i</sub></code> first if you want to take course <code>a<sub>i</sub></code>.</p>
+
+<ul>
+	<li>For example, the pair <code>[0, 1]</code>, indicates that to take course <code>0</code> you have to first take course <code>1</code>.</li>
+</ul>
+
+<p>Return <code>true</code> if you can finish all courses. Otherwise, return <code>false</code>.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input:</strong> numCourses = 2, prerequisites = [[1,0]]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> There are a total of 2 courses to take. 
+To take course 1 you should have finished course 0. So it is possible.
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> numCourses = 2, prerequisites = [[1,0],[0,1]]
+<strong>Output:</strong> false
+<strong>Explanation:</strong> There are a total of 2 courses to take. 
+To take course 1 you should have finished course 0, and to take course 0 you should also have finished course 1. So it is impossible.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= numCourses &lt;= 2000</code></li>
+	<li><code>0 &lt;= prerequisites.length &lt;= 5000</code></li>
+	<li><code>prerequisites[i].length == 2</code></li>
+	<li><code>0 &lt;= a<sub>i</sub>, b<sub>i</sub> &lt; numCourses</code></li>
+	<li>All the pairs prerequisites[i] are <strong>unique</strong>.</li>
+</ul>
+","def canFinish(numCourses, prerequisites):
+    def dfs(course):
+        if course in visited:
+            return False
+        if course in checked:
+            return True
+
+        visited.add(course)
+        for prereq in graph[course]:
+            if not dfs(prereq):
+                return False
+        visited.remove(course)
+        checked.add(course)
+
+        return True
+
+    # Create a graph from prerequisites
+    graph = {i: [] for i in range(numCourses)}
+    for course, prereq in prerequisites:
+        graph[course].append(prereq)
+
+    visited = set()  # Tracks courses during a DFS
+    checked = set()  # Tracks courses that have been confirmed to be acyclic
+
+    for course in range(numCourses):
+        if not dfs(course):
+            return False
+
+    return True
+
+# Example usage
+print(canFinish(2, [[1, 0]]))         # Output: True
+print(canFinish(2, [[1, 0], [0, 1]])) # Output: False"
+29,Graph,https://leetcode.com/problems/pacific-atlantic-water-flow/,Pacific Atlantic Water Flow,417,Pacific Atlantic Water Flow,Medium,"['array', 'depth-first-search', 'breadth-first-search', 'matrix']","<p>There is an <code>m x n</code> rectangular island that borders both the <strong>Pacific Ocean</strong> and <strong>Atlantic Ocean</strong>. The <strong>Pacific Ocean</strong> touches the island's left and top edges, and the <strong>Atlantic Ocean</strong> touches the island's right and bottom edges.</p>
+
+<p>The island is partitioned into a grid of square cells. You are given an <code>m x n</code> integer matrix <code>heights</code> where <code>heights[r][c]</code> represents the <strong>height above sea level</strong> of the cell at coordinate <code>(r, c)</code>.</p>
+
+<p>The island receives a lot of rain, and the rain water can flow to neighboring cells directly north, south, east, and west if the neighboring cell's height is <strong>less than or equal to</strong> the current cell's height. Water can flow from any cell adjacent to an ocean into the ocean.</p>
+
+<p>Return <em>a <strong>2D list</strong> of grid coordinates </em><code>result</code><em> where </em><code>result[i] = [r<sub>i</sub>, c<sub>i</sub>]</code><em> denotes that rain water can flow from cell </em><code>(r<sub>i</sub>, c<sub>i</sub>)</code><em> to <strong>both</strong> the Pacific and Atlantic oceans</em>.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2021/06/08/waterflow-grid.jpg"" style=""width: 400px; height: 400px;"">
+<pre><strong>Input:</strong> heights = [[1,2,2,3,5],[3,2,3,4,4],[2,4,5,3,1],[6,7,1,4,5],[5,1,1,2,4]]
+<strong>Output:</strong> [[0,4],[1,3],[1,4],[2,2],[3,0],[3,1],[4,0]]
+<strong>Explanation:</strong> The following cells can flow to the Pacific and Atlantic oceans, as shown below:
+[0,4]: [0,4] -&gt; Pacific Ocean 
+&nbsp;      [0,4] -&gt; Atlantic Ocean
+[1,3]: [1,3] -&gt; [0,3] -&gt; Pacific Ocean 
+&nbsp;      [1,3] -&gt; [1,4] -&gt; Atlantic Ocean
+[1,4]: [1,4] -&gt; [1,3] -&gt; [0,3] -&gt; Pacific Ocean 
+&nbsp;      [1,4] -&gt; Atlantic Ocean
+[2,2]: [2,2] -&gt; [1,2] -&gt; [0,2] -&gt; Pacific Ocean 
+&nbsp;      [2,2] -&gt; [2,3] -&gt; [2,4] -&gt; Atlantic Ocean
+[3,0]: [3,0] -&gt; Pacific Ocean 
+&nbsp;      [3,0] -&gt; [4,0] -&gt; Atlantic Ocean
+[3,1]: [3,1] -&gt; [3,0] -&gt; Pacific Ocean 
+&nbsp;      [3,1] -&gt; [4,1] -&gt; Atlantic Ocean
+[4,0]: [4,0] -&gt; Pacific Ocean 
+       [4,0] -&gt; Atlantic Ocean
+Note that there are other possible paths for these cells to flow to the Pacific and Atlantic oceans.
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> heights = [[1]]
+<strong>Output:</strong> [[0,0]]
+<strong>Explanation:</strong> The water can flow from the only cell to the Pacific and Atlantic oceans.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>m == heights.length</code></li>
+	<li><code>n == heights[r].length</code></li>
+	<li><code>1 &lt;= m, n &lt;= 200</code></li>
+	<li><code>0 &lt;= heights[r][c] &lt;= 10<sup>5</sup></code></li>
+</ul>
+","def pacificAtlantic(heights):
+    if not heights:
+        return []
+
+    m, n = len(heights), len(heights[0])
+    pacific = set()
+    atlantic = set()
+
+    def dfs(r, c, visit, prevHeight):
+        if ((r, c) in visit or r < 0 or c < 0 or r == m or c == n or heights[r][c] < prevHeight):
+            return
+        visit.add((r, c))
+        for dr, dc in [(1,0), (-1,0), (0,1), (0,-1)]:
+            dfs(r + dr, c + dc, visit, heights[r][c])
+
+    for i in range(m):
+        dfs(i, 0, pacific, heights[i][0])
+        dfs(i, n - 1, atlantic, heights[i][n - 1])
+
+    for j in range(n):
+        dfs(0, j, pacific, heights[0][j])
+        dfs(m - 1, j, atlantic, heights[m - 1][j])
+
+    return list(pacific.intersection(atlantic))
+
+# Example usage
+heights = [
+    [1,2,2,3,5],
+    [3,2,3,4,4],
+    [2,4,5,3,1],
+    [6,7,1,4,5],
+    [5,1,1,2,4]
+]
+print(pacificAtlantic(heights)) # Output: [[0,4],[1,3],[1,4],[2,2],[3,0],[3,1],[4,0]]"
+30,Graph,https://leetcode.com/problems/number-of-islands/,Number of Islands,200,Number of Islands,Medium,"['array', 'depth-first-search', 'breadth-first-search', 'union-find', 'matrix']","<p>Given an <code>m x n</code> 2D binary grid <code>grid</code> which represents a map of <code>'1'</code>s (land) and <code>'0'</code>s (water), return <em>the number of islands</em>.</p>
+
+<p>An <strong>island</strong> is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input:</strong> grid = [
+  [""1"",""1"",""1"",""1"",""0""],
+  [""1"",""1"",""0"",""1"",""0""],
+  [""1"",""1"",""0"",""0"",""0""],
+  [""0"",""0"",""0"",""0"",""0""]
+]
+<strong>Output:</strong> 1
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> grid = [
+  [""1"",""1"",""0"",""0"",""0""],
+  [""1"",""1"",""0"",""0"",""0""],
+  [""0"",""0"",""1"",""0"",""0""],
+  [""0"",""0"",""0"",""1"",""1""]
+]
+<strong>Output:</strong> 3
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>m == grid.length</code></li>
+	<li><code>n == grid[i].length</code></li>
+	<li><code>1 &lt;= m, n &lt;= 300</code></li>
+	<li><code>grid[i][j]</code> is <code>'0'</code> or <code>'1'</code>.</li>
+</ul>
+","def numIslands(grid):
+    if not grid:
+        return 0
+
+    def dfs(r, c):
+        if r < 0 or c < 0 or r >= len(grid) or c >= len(grid[0]) or grid[r][c] == '0':
+            return
+        grid[r][c] = '0'  # Mark the land cell as visited
+        dfs(r+1, c)
+        dfs(r-1, c)
+        dfs(r, c+1)
+        dfs(r, c-1)
+
+    count = 0
+    for r in range(len(grid)):
+        for c in range(len(grid[0])):
+            if grid[r][c] == '1':
+                dfs(r, c)
+                count += 1  # Increase count for each new island found
+
+    return count
+
+# Example usage
+grid1 = [
+  [""1"",""1"",""1"",""1"",""0""],
+  [""1"",""1"",""0"",""1"",""0""],
+  [""1"",""1"",""0"",""0"",""0""],
+  [""0"",""0"",""0"",""0"",""0""]
+]
+print(numIslands(grid1))  # Output: 1
+
+grid2 = [
+  [""1"",""1"",""0"",""0"",""0""],
+  [""1"",""1"",""0"",""0"",""0""],
+  [""0"",""0"",""1"",""0"",""0""],
+  [""0"",""0"",""0"",""1"",""1""]
+]
+print(numIslands(grid2))  # Output: 3"
+31,Graph,https://leetcode.com/problems/longest-consecutive-sequence/,Longest Consecutive Sequence,128,Longest Consecutive Sequence,Medium,"['array', 'hash-table', 'union-find']","<p>Given an unsorted array of integers <code>nums</code>, return <em>the length of the longest consecutive elements sequence.</em></p>
+
+<p>You must write an algorithm that runs in&nbsp;<code>O(n)</code>&nbsp;time.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input:</strong> nums = [100,4,200,1,3,2]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> The longest consecutive elements sequence is <code>[1, 2, 3, 4]</code>. Therefore its length is 4.
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> nums = [0,3,7,2,5,8,4,6,0,1]
+<strong>Output:</strong> 9
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>0 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>-10<sup>9</sup> &lt;= nums[i] &lt;= 10<sup>9</sup></code></li>
+</ul>
+","def longestConsecutive(nums):
+    if not nums:
+        return 0
+
+    num_set = set(nums)
+    longest_streak = 0
+
+    for num in num_set:
+        if num - 1 not in num_set:  # Check if it's the start of a sequence
+            current_num = num
+            current_streak = 1
+
+            while current_num + 1 in num_set:
+                current_num += 1
+                current_streak += 1
+
+            longest_streak = max(longest_streak, current_streak)
+
+    return longest_streak
+
+# Example usage
+print(longestConsecutive([100,4,200,1,3,2]))  # Output: 4
+print(longestConsecutive([0,3,7,2,5,8,4,6,0,1]))  # Output: 9"
+32,Graph,https://leetcode.com/problems/alien-dictionary/,Alien Dictionary (Leetcode Premium),269,Alien Dictionary,Hard,"['array', 'string', 'depth-first-search', 'breadth-first-search', 'graph', 'topological-sort']","<p>There is a new alien language that uses the English alphabet. However, the order of the letters is unknown to you.</p>
+
+<p>You are given a list of strings <code>words</code> from the alien language's dictionary. Now it is claimed that the strings in <code>words</code> are <span data-keyword=""lexicographically-smaller-string-alien"" class="" cursor-pointer relative text-dark-blue-s text-sm""><div class=""popover-wrapper inline-block"" data-headlessui-state=""""><div><div aria-expanded=""false"" data-headlessui-state="""" id=""headlessui-popover-button-:rr:""><div><strong>sorted lexicographically</strong></div></div><div style=""position: fixed; z-index: 40; inset: 0px auto auto 0px; transform: translate(296px, 262px);""></div></div></div></span> by the rules of this new language.</p>
+
+<p>If this claim is incorrect, and the given arrangement of string in&nbsp;<code>words</code>&nbsp;cannot correspond to any order of letters,&nbsp;return&nbsp;<code>"""".</code></p>
+
+<p>Otherwise, return <em>a string of the unique letters in the new alien language sorted in <strong>lexicographically increasing order</strong> by the new language's rules</em><em>. </em>If there are multiple solutions, return<em> <strong>any of them</strong></em>.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input:</strong> words = [""wrt"",""wrf"",""er"",""ett"",""rftt""]
+<strong>Output:</strong> ""wertf""
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> words = [""z"",""x""]
+<strong>Output:</strong> ""zx""
+</pre>
+
+<p><strong class=""example"">Example 3:</strong></p>
+
+<pre><strong>Input:</strong> words = [""z"",""x"",""z""]
+<strong>Output:</strong> """"
+<strong>Explanation:</strong> The order is invalid, so return <code>""""</code>.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= words.length &lt;= 100</code></li>
+	<li><code>1 &lt;= words[i].length &lt;= 100</code></li>
+	<li><code>words[i]</code> consists of only lowercase English letters.</li>
+</ul>
+","from collections import defaultdict, deque
+
+def alienOrder(words):
+    # Create a graph (adjacency list) and a set of all unique letters
+    graph = defaultdict(set)
+    letters = set(''.join(words))
+    in_degree = {char: 0 for char in letters}
+
+    # Build the graph and count in-degrees
+    for i in range(len(words) - 1):
+        min_length = min(len(words[i]), len(words[i + 1]))
+        for j in range(min_length):
+            if words[i][j] != words[i + 1][j]:
+                if words[i + 1][j] not in graph[words[i][j]]:
+                    graph[words[i][j]].add(words[i + 1][j])
+                    in_degree[words[i + 1][j]] += 1
+                break
+        else:  # Check if second word is a prefix of first word
+            if len(words[i]) > len(words[i + 1]):
+                return """"
+
+    # Topological sort using BFS (Kahn's algorithm)
+    queue = deque([char for char in in_degree if in_degree[char] == 0])
+    alien_order = """"
+
+    while queue:
+        char = queue.popleft()
+        alien_order += char
+        for next_char in graph[char]:
+            in_degree[next_char] -= 1
+            if in_degree[next_char] == 0:
+                queue.append(next_char)
+
+    if len(alien_order) < len(letters):
+        return """"  # Cycle detected or not all letters are connected
+
+    return alien_order
+
+# Example usage
+print(alienOrder([""wrt"", ""wrf"", ""er"", ""ett"", ""rftt""]))  # Output: ""wertf""
+print(alienOrder([""z"", ""x""]))                           # Output: ""zx""
+print(alienOrder([""z"", ""x"", ""z""]))                      # Output: """""
+33,Graph,https://leetcode.com/problems/graph-valid-tree/,Graph Valid Tree (Leetcode Premium),261,Graph Valid Tree,Medium,"['depth-first-search', 'breadth-first-search', 'union-find', 'graph']","<p>You have a graph of <code>n</code> nodes labeled from <code>0</code> to <code>n - 1</code>. You are given an integer n and a list of <code>edges</code> where <code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> indicates that there is an undirected edge between nodes <code>a<sub>i</sub></code> and <code>b<sub>i</sub></code> in the graph.</p>
+
+<p>Return <code>true</code> <em>if the edges of the given graph make up a valid tree, and</em> <code>false</code> <em>otherwise</em>.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2021/03/12/tree1-graph.jpg"" style=""width: 222px; height: 302px;"">
+<pre><strong>Input:</strong> n = 5, edges = [[0,1],[0,2],[0,3],[1,4]]
+<strong>Output:</strong> true
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2021/03/12/tree2-graph.jpg"" style=""width: 382px; height: 222px;"">
+<pre><strong>Input:</strong> n = 5, edges = [[0,1],[1,2],[2,3],[1,3],[1,4]]
+<strong>Output:</strong> false
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= n &lt;= 2000</code></li>
+	<li><code>0 &lt;= edges.length &lt;= 5000</code></li>
+	<li><code>edges[i].length == 2</code></li>
+	<li><code>0 &lt;= a<sub>i</sub>, b<sub>i</sub> &lt; n</code></li>
+	<li><code>a<sub>i</sub> != b<sub>i</sub></code></li>
+	<li>There are no self-loops or repeated edges.</li>
+</ul>
+","class UnionFind:
+    def __init__(self, size):
+        self.root = [i for i in range(size)]
+
+    def find(self, x):
+        if x == self.root[x]:
+            return x
+        self.root[x] = self.find(self.root[x])
+        return self.root[x]
+
+    def union(self, x, y):
+        rootX = self.find(x)
+        rootY = self.find(y)
+        if rootX != rootY:
+            self.root[rootY] = rootX
+            return True
+        return False
+
+def validTree(n, edges):
+    if len(edges) != n - 1:  # Check for correct number of edges
+        return False
+
+    uf = UnionFind(n)
+    for a, b in edges:
+        if not uf.union(a, b):  # If a union returns False, a cycle is found
+            return False
+
+    return True
+
+# Example usage
+print(validTree(5, [[0,1],[0,2],[0,3],[1,4]]))  # Output: true
+print(validTree(5, [[0,1],[1,2],[2,3],[1,3],[1,4]]))  # Output: false"
+34,Graph,https://leetcode.com/problems/number-of-connected-components-in-an-undirected-graph/,Number of Connected Components in an Undirected Graph (Leetcode Premium),323,Number of Connected Components in an Undirected Graph,Medium,"['depth-first-search', 'breadth-first-search', 'union-find', 'graph']","<p>You have a graph of <code>n</code> nodes. You are given an integer <code>n</code> and an array <code>edges</code> where <code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> indicates that there is an edge between <code>a<sub>i</sub></code> and <code>b<sub>i</sub></code> in the graph.</p>
+
+<p>Return <em>the number of connected components in the graph</em>.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2021/03/14/conn1-graph.jpg"" style=""width: 382px; height: 222px;"">
+<pre><strong>Input:</strong> n = 5, edges = [[0,1],[1,2],[3,4]]
+<strong>Output:</strong> 2
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2021/03/14/conn2-graph.jpg"" style=""width: 382px; height: 222px;"">
+<pre><strong>Input:</strong> n = 5, edges = [[0,1],[1,2],[2,3],[3,4]]
+<strong>Output:</strong> 1
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= n &lt;= 2000</code></li>
+	<li><code>1 &lt;= edges.length &lt;= 5000</code></li>
+	<li><code>edges[i].length == 2</code></li>
+	<li><code>0 &lt;= a<sub>i</sub> &lt;= b<sub>i</sub> &lt; n</code></li>
+	<li><code>a<sub>i</sub> != b<sub>i</sub></code></li>
+	<li>There are no repeated edges.</li>
+</ul>
+","class UnionFind:
+    def __init__(self, size):
+        self.root = [i for i in range(size)]
+
+    def find(self, x):
+        if x == self.root[x]:
+            return x
+        self.root[x] = self.find(self.root[x])
+        return self.root[x]
+
+    def union(self, x, y):
+        rootX = self.find(x)
+        rootY = self.find(y)
+        if rootX != rootY:
+            self.root[rootY] = rootX
+
+def countComponents(n, edges):
+    uf = UnionFind(n)
+
+    for a, b in edges:
+        uf.union(a, b)
+
+    # Count unique roots which represent different connected components
+    roots = set()
+    for i in range(n):
+        roots.add(uf.find(i))
+
+    return len(roots)
+
+# Example usage
+print(countComponents(5, [[0, 1], [1, 2], [3, 4]]))  # Output: 2
+print(countComponents(5, [[0, 1], [1, 2], [2, 3], [3, 4]]))  # Output: 1"
+35,Interval,https://leetcode.com/problems/insert-interval/,Insert Interval,57,Insert Interval,Medium,['array'],"<p>You are given an array of non-overlapping intervals <code>intervals</code> where <code>intervals[i] = [start<sub>i</sub>, end<sub>i</sub>]</code> represent the start and the end of the <code>i<sup>th</sup></code> interval and <code>intervals</code> is sorted in ascending order by <code>start<sub>i</sub></code>. You are also given an interval <code>newInterval = [start, end]</code> that represents the start and end of another interval.</p>
+
+<p>Insert <code>newInterval</code> into <code>intervals</code> such that <code>intervals</code> is still sorted in ascending order by <code>start<sub>i</sub></code> and <code>intervals</code> still does not have any overlapping intervals (merge overlapping intervals if necessary).</p>
+
+<p>Return <code>intervals</code><em> after the insertion</em>.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input:</strong> intervals = [[1,3],[6,9]], newInterval = [2,5]
+<strong>Output:</strong> [[1,5],[6,9]]
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> intervals = [[1,2],[3,5],[6,7],[8,10],[12,16]], newInterval = [4,8]
+<strong>Output:</strong> [[1,2],[3,10],[12,16]]
+<strong>Explanation:</strong> Because the new interval [4,8] overlaps with [3,5],[6,7],[8,10].
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>0 &lt;= intervals.length &lt;= 10<sup>4</sup></code></li>
+	<li><code>intervals[i].length == 2</code></li>
+	<li><code>0 &lt;= start<sub>i</sub> &lt;= end<sub>i</sub> &lt;= 10<sup>5</sup></code></li>
+	<li><code>intervals</code> is sorted by <code>start<sub>i</sub></code> in <strong>ascending</strong> order.</li>
+	<li><code>newInterval.length == 2</code></li>
+	<li><code>0 &lt;= start &lt;= end &lt;= 10<sup>5</sup></code></li>
+</ul>
+","def insert(intervals, newInterval):
+    result = []
+    i = 0
+    start, end = newInterval
+
+    # Add all intervals before newInterval
+    while i < len(intervals) and intervals[i][1] < start:
+        result.append(intervals[i])
+        i += 1
+
+    # Merge intervals that overlap with newInterval
+    while i < len(intervals) and intervals[i][0] <= end:
+        start = min(start, intervals[i][0])
+        end = max(end, intervals[i][1])
+        i += 1
+    result.append([start, end])
+
+    # Add the rest of the intervals
+    result.extend(intervals[i:])
+
+    return result
+
+# Example usage
+print(insert([[1,3],[6,9]], [2,5]))  # Output: [[1,5],[6,9]]
+print(insert([[1,2],[3,5],[6,7],[8,10],[12,16]], [4,8]))  # Output: [[1,2],[3,10],[12,16]]"
+36,Interval,https://leetcode.com/problems/merge-intervals/,Merge Intervals,56,Merge Intervals,Medium,"['array', 'sorting']","<p>Given an array&nbsp;of <code>intervals</code>&nbsp;where <code>intervals[i] = [start<sub>i</sub>, end<sub>i</sub>]</code>, merge all overlapping intervals, and return <em>an array of the non-overlapping intervals that cover all the intervals in the input</em>.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input:</strong> intervals = [[1,3],[2,6],[8,10],[15,18]]
+<strong>Output:</strong> [[1,6],[8,10],[15,18]]
+<strong>Explanation:</strong> Since intervals [1,3] and [2,6] overlap, merge them into [1,6].
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> intervals = [[1,4],[4,5]]
+<strong>Output:</strong> [[1,5]]
+<strong>Explanation:</strong> Intervals [1,4] and [4,5] are considered overlapping.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= intervals.length &lt;= 10<sup>4</sup></code></li>
+	<li><code>intervals[i].length == 2</code></li>
+	<li><code>0 &lt;= start<sub>i</sub> &lt;= end<sub>i</sub> &lt;= 10<sup>4</sup></code></li>
+</ul>
+","def merge(intervals):
+    if not intervals:
+        return []
+
+    # Sort the intervals based on the start time
+    intervals.sort(key=lambda x: x[0])
+    
+    merged = [intervals[0]]
+    for i in range(1, len(intervals)):
+        # If the current interval overlaps with the last interval in merged, merge them
+        if intervals[i][0] <= merged[-1][1]:
+            merged[-1][1] = max(merged[-1][1], intervals[i][1])
+        else:
+            merged.append(intervals[i])
+
+    return merged
+
+# Example usage
+print(merge([[1,3],[2,6],[8,10],[15,18]]))  # Output: [[1,6],[8,10],[15,18]]
+print(merge([[1,4],[4,5]]))                 # Output: [[1,5]]"
+37,Interval,https://leetcode.com/problems/non-overlapping-intervals/,Non-overlapping Intervals,435,Non-overlapping Intervals,Medium,"['array', 'dynamic-programming', 'greedy', 'sorting']","<p>Given an array of intervals <code>intervals</code> where <code>intervals[i] = [start<sub>i</sub>, end<sub>i</sub>]</code>, return <em>the minimum number of intervals you need to remove to make the rest of the intervals non-overlapping</em>.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input:</strong> intervals = [[1,2],[2,3],[3,4],[1,3]]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> [1,3] can be removed and the rest of the intervals are non-overlapping.
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> intervals = [[1,2],[1,2],[1,2]]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> You need to remove two [1,2] to make the rest of the intervals non-overlapping.
+</pre>
+
+<p><strong class=""example"">Example 3:</strong></p>
+
+<pre><strong>Input:</strong> intervals = [[1,2],[2,3]]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> You don't need to remove any of the intervals since they're already non-overlapping.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= intervals.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>intervals[i].length == 2</code></li>
+	<li><code>-5 * 10<sup>4</sup> &lt;= start<sub>i</sub> &lt; end<sub>i</sub> &lt;= 5 * 10<sup>4</sup></code></li>
+</ul>
+","def eraseOverlapIntervals(intervals):
+    if not intervals:
+        return 0
+
+    # Sort the intervals based on their end time
+    intervals.sort(key=lambda x: x[1])
+
+    end = intervals[0][1]
+    count = 0
+    for i in range(1, len(intervals)):
+        if intervals[i][0] < end:  # Overlap detected
+            count += 1
+        else:
+            end = intervals[i][1]
+
+    return count
+
+# Example usage
+print(eraseOverlapIntervals([[1,2],[2,3],[3,4],[1,3]]))  # Output: 1
+print(eraseOverlapIntervals([[1,2],[1,2],[1,2]]))        # Output: 2
+print(eraseOverlapIntervals([[1,2],[2,3]]))              # Output: 0"
+38,Interval,https://leetcode.com/problems/meeting-rooms/,Meeting Rooms (Leetcode Premium),252,Meeting Rooms,Easy,"['array', 'sorting']","<p>Given an array of meeting time <code>intervals</code>&nbsp;where <code>intervals[i] = [start<sub>i</sub>, end<sub>i</sub>]</code>, determine if a person could attend all meetings.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+<pre><strong>Input:</strong> intervals = [[0,30],[5,10],[15,20]]
+<strong>Output:</strong> false
+</pre><p><strong class=""example"">Example 2:</strong></p>
+<pre><strong>Input:</strong> intervals = [[7,10],[2,4]]
+<strong>Output:</strong> true
+</pre>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>0 &lt;= intervals.length &lt;= 10<sup>4</sup></code></li>
+	<li><code>intervals[i].length == 2</code></li>
+	<li><code>0 &lt;= start<sub>i</sub> &lt;&nbsp;end<sub>i</sub> &lt;= 10<sup>6</sup></code></li>
+</ul>
+","def canAttendMeetings(intervals):
+    intervals.sort(key=lambda x: x[0])
+    for i in range(1, len(intervals)):
+        if intervals[i][0] < intervals[i - 1][1]:
+            # Current meeting starts before the previous meeting ends
+            return False
+    return True
+
+# Example usage
+print(canAttendMeetings([[0,30],[5,10],[15,20]]))  # Output: false
+print(canAttendMeetings([[7,10],[2,4]]))           # Output: true"
+39,Interval,https://leetcode.com/problems/meeting-rooms-ii/,Meeting Rooms II (Leetcode Premium),253,Meeting Rooms II,Medium,"['array', 'two-pointers', 'greedy', 'sorting', 'heap-priority-queue', 'prefix-sum']","<p>Given an array of meeting time intervals <code>intervals</code> where <code>intervals[i] = [start<sub>i</sub>, end<sub>i</sub>]</code>, return <em>the minimum number of conference rooms required</em>.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+<pre><strong>Input:</strong> intervals = [[0,30],[5,10],[15,20]]
+<strong>Output:</strong> 2
+</pre><p><strong class=""example"">Example 2:</strong></p>
+<pre><strong>Input:</strong> intervals = [[7,10],[2,4]]
+<strong>Output:</strong> 1
+</pre>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;=&nbsp;intervals.length &lt;= 10<sup>4</sup></code></li>
+	<li><code>0 &lt;= start<sub>i</sub> &lt; end<sub>i</sub> &lt;= 10<sup>6</sup></code></li>
+</ul>
+","import heapq
+
+def minMeetingRooms(intervals):
+    if not intervals:
+        return 0
+
+    # Sort intervals based on start time
+    intervals.sort(key=lambda x: x[0])
+    
+    # Initialize a heap with the end time of the first meeting
+    heap = [intervals[0][1]]
+    
+    for i in intervals[1:]:
+        if i[0] >= heap[0]:  # If the meeting can use the same room
+            heapq.heappop(heap)  # Remove the earliest ending meeting
+
+        heapq.heappush(heap, i[1])  # Add the current meeting's end time
+
+    return len(heap)
+
+# Example usage
+print(minMeetingRooms([[0, 30], [5, 10], [15, 20]]))  # Output: 2
+print(minMeetingRooms([[7, 10], [2, 4]]))             # Output: 1"
+40,Linked List,https://leetcode.com/problems/reverse-linked-list/,Reverse a Linked List,206,Reverse Linked List,Easy,"['linked-list', 'recursion']","<p>Given the <code>head</code> of a singly linked list, reverse the list, and return <em>the reversed list</em>.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2021/02/19/rev1ex1.jpg"" style=""width: 542px; height: 222px;"">
+<pre><strong>Input:</strong> head = [1,2,3,4,5]
+<strong>Output:</strong> [5,4,3,2,1]
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2021/02/19/rev1ex2.jpg"" style=""width: 182px; height: 222px;"">
+<pre><strong>Input:</strong> head = [1,2]
+<strong>Output:</strong> [2,1]
+</pre>
+
+<p><strong class=""example"">Example 3:</strong></p>
+
+<pre><strong>Input:</strong> head = []
+<strong>Output:</strong> []
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li>The number of nodes in the list is the range <code>[0, 5000]</code>.</li>
+	<li><code>-5000 &lt;= Node.val &lt;= 5000</code></li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong>Follow up:</strong> A linked list can be reversed either iteratively or recursively. Could you implement both?</p>
+","class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def reverseListIterative(head):
+    prev, curr = None, head
+    while curr:
+        next_temp = curr.next
+        curr.next = prev
+        prev = curr
+        curr = next_temp
+    return prev
+
+def reverseListRecursive(head):
+    if not head or not head.next:
+        return head
+    reversed_head = reverseListRecursive(head.next)
+    head.next.next = head
+    head.next = None
+    return reversed_head"
+41,Linked List,https://leetcode.com/problems/linked-list-cycle/,Detect Cycle in a Linked List,141,Linked List Cycle,Easy,"['hash-table', 'linked-list', 'two-pointers']","<p>Given <code>head</code>, the head of a linked list, determine if the linked list has a cycle in it.</p>
+
+<p>There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the&nbsp;<code>next</code>&nbsp;pointer. Internally, <code>pos</code>&nbsp;is used to denote the index of the node that&nbsp;tail's&nbsp;<code>next</code>&nbsp;pointer is connected to.&nbsp;<strong>Note that&nbsp;<code>pos</code>&nbsp;is not passed as a parameter</strong>.</p>
+
+<p>Return&nbsp;<code>true</code><em> if there is a cycle in the linked list</em>. Otherwise, return <code>false</code>.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist.png"" style=""width: 300px; height: 97px; margin-top: 8px; margin-bottom: 8px;"">
+<pre><strong>Input:</strong> head = [3,2,0,-4], pos = 1
+<strong>Output:</strong> true
+<strong>Explanation:</strong> There is a cycle in the linked list, where the tail connects to the 1st node (0-indexed).
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist_test2.png"" style=""width: 141px; height: 74px;"">
+<pre><strong>Input:</strong> head = [1,2], pos = 0
+<strong>Output:</strong> true
+<strong>Explanation:</strong> There is a cycle in the linked list, where the tail connects to the 0th node.
+</pre>
+
+<p><strong class=""example"">Example 3:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist_test3.png"" style=""width: 45px; height: 45px;"">
+<pre><strong>Input:</strong> head = [1], pos = -1
+<strong>Output:</strong> false
+<strong>Explanation:</strong> There is no cycle in the linked list.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li>The number of the nodes in the list is in the range <code>[0, 10<sup>4</sup>]</code>.</li>
+	<li><code>-10<sup>5</sup> &lt;= Node.val &lt;= 10<sup>5</sup></code></li>
+	<li><code>pos</code> is <code>-1</code> or a <strong>valid index</strong> in the linked-list.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong>Follow up:</strong> Can you solve it using <code>O(1)</code> (i.e. constant) memory?</p>
+","class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def hasCycle(head):
+    slow, fast = head, head
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+        if slow == fast:
+            return True
+    return False"
+42,Linked List,https://leetcode.com/problems/merge-two-sorted-lists/,Merge Two Sorted Lists,21,Merge Two Sorted Lists,Easy,"['linked-list', 'recursion']","<p>You are given the heads of two sorted linked lists <code>list1</code> and <code>list2</code>.</p>
+
+<p>Merge the two lists into one <strong>sorted</strong> list. The list should be made by splicing together the nodes of the first two lists.</p>
+
+<p>Return <em>the head of the merged linked list</em>.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2020/10/03/merge_ex1.jpg"" style=""width: 662px; height: 302px;"">
+<pre><strong>Input:</strong> list1 = [1,2,4], list2 = [1,3,4]
+<strong>Output:</strong> [1,1,2,3,4,4]
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> list1 = [], list2 = []
+<strong>Output:</strong> []
+</pre>
+
+<p><strong class=""example"">Example 3:</strong></p>
+
+<pre><strong>Input:</strong> list1 = [], list2 = [0]
+<strong>Output:</strong> [0]
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li>The number of nodes in both lists is in the range <code>[0, 50]</code>.</li>
+	<li><code>-100 &lt;= Node.val &lt;= 100</code></li>
+	<li>Both <code>list1</code> and <code>list2</code> are sorted in <strong>non-decreasing</strong> order.</li>
+</ul>
+","class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def mergeTwoLists(list1, list2):
+    dummy = ListNode()
+    tail = dummy
+
+    while list1 and list2:
+        if list1.val < list2.val:
+            tail.next = list1
+            list1 = list1.next
+        else:
+            tail.next = list2
+            list2 = list2.next
+        tail = tail.next
+
+    if list1:
+        tail.next = list1
+    else:
+        tail.next = list2
+
+    return dummy.next"
+43,Linked List,https://leetcode.com/problems/merge-k-sorted-lists/,Merge K Sorted Lists,23,Merge k Sorted Lists,Hard,"['linked-list', 'divide-and-conquer', 'heap-priority-queue', 'merge-sort']","<p>You are given an array of <code>k</code> linked-lists <code>lists</code>, each linked-list is sorted in ascending order.</p>
+
+<p><em>Merge all the linked-lists into one sorted linked-list and return it.</em></p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input:</strong> lists = [[1,4,5],[1,3,4],[2,6]]
+<strong>Output:</strong> [1,1,2,3,4,4,5,6]
+<strong>Explanation:</strong> The linked-lists are:
+[
+  1-&gt;4-&gt;5,
+  1-&gt;3-&gt;4,
+  2-&gt;6
+]
+merging them into one sorted list:
+1-&gt;1-&gt;2-&gt;3-&gt;4-&gt;4-&gt;5-&gt;6
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> lists = []
+<strong>Output:</strong> []
+</pre>
+
+<p><strong class=""example"">Example 3:</strong></p>
+
+<pre><strong>Input:</strong> lists = [[]]
+<strong>Output:</strong> []
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>k == lists.length</code></li>
+	<li><code>0 &lt;= k &lt;= 10<sup>4</sup></code></li>
+	<li><code>0 &lt;= lists[i].length &lt;= 500</code></li>
+	<li><code>-10<sup>4</sup> &lt;= lists[i][j] &lt;= 10<sup>4</sup></code></li>
+	<li><code>lists[i]</code> is sorted in <strong>ascending order</strong>.</li>
+	<li>The sum of <code>lists[i].length</code> will not exceed <code>10<sup>4</sup></code>.</li>
+</ul>
+","import heapq
+
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def mergeKLists(lists):
+    min_heap = []
+    for head in lists:
+        while head:
+            heapq.heappush(min_heap, head.val)
+            head = head.next
+    
+    dummy = ListNode()
+    current = dummy
+    while min_heap:
+        smallest_val = heapq.heappop(min_heap)
+        current.next = ListNode(smallest_val)
+        current = current.next
+    
+    return dummy.next"
+44,Linked List,https://leetcode.com/problems/remove-nth-node-from-end-of-list/,Remove Nth Node From End Of List,19,Remove Nth Node From End of List,Medium,"['linked-list', 'two-pointers']","<p>Given the <code>head</code> of a linked list, remove the <code>n<sup>th</sup></code> node from the end of the list and return its head.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2020/10/03/remove_ex1.jpg"" style=""width: 542px; height: 222px;"">
+<pre><strong>Input:</strong> head = [1,2,3,4,5], n = 2
+<strong>Output:</strong> [1,2,3,5]
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> head = [1], n = 1
+<strong>Output:</strong> []
+</pre>
+
+<p><strong class=""example"">Example 3:</strong></p>
+
+<pre><strong>Input:</strong> head = [1,2], n = 1
+<strong>Output:</strong> [1]
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li>The number of nodes in the list is <code>sz</code>.</li>
+	<li><code>1 &lt;= sz &lt;= 30</code></li>
+	<li><code>0 &lt;= Node.val &lt;= 100</code></li>
+	<li><code>1 &lt;= n &lt;= sz</code></li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong>Follow up:</strong> Could you do this in one pass?</p>
+","class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def removeNthFromEnd(head, n):
+    dummy = ListNode(0, head)
+    fast = slow = dummy
+
+    for _ in range(n):
+        fast = fast.next
+
+    while fast.next:
+        fast = fast.next
+        slow = slow.next
+
+    slow.next = slow.next.next
+    return dummy.next
+"
+45,Linked List,https://leetcode.com/problems/reorder-list/,Reorder List,143,Reorder List,Medium,"['linked-list', 'two-pointers', 'stack', 'recursion']","<p>You are given the head of a singly linked-list. The list can be represented as:</p>
+
+<pre>L<sub>0</sub> → L<sub>1</sub> → … → L<sub>n - 1</sub> → L<sub>n</sub>
+</pre>
+
+<p><em>Reorder the list to be on the following form:</em></p>
+
+<pre>L<sub>0</sub> → L<sub>n</sub> → L<sub>1</sub> → L<sub>n - 1</sub> → L<sub>2</sub> → L<sub>n - 2</sub> → …
+</pre>
+
+<p>You may not modify the values in the list's nodes. Only nodes themselves may be changed.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2021/03/04/reorder1linked-list.jpg"" style=""width: 422px; height: 222px;"">
+<pre><strong>Input:</strong> head = [1,2,3,4]
+<strong>Output:</strong> [1,4,2,3]
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2021/03/09/reorder2-linked-list.jpg"" style=""width: 542px; height: 222px;"">
+<pre><strong>Input:</strong> head = [1,2,3,4,5]
+<strong>Output:</strong> [1,5,2,4,3]
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li>The number of nodes in the list is in the range <code>[1, 5 * 10<sup>4</sup>]</code>.</li>
+	<li><code>1 &lt;= Node.val &lt;= 1000</code></li>
+</ul>
+","class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def reorderList(head):
+    if not head:
+        return
+
+    # Find the middle of the linked list
+    slow = fast = head
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+
+    # Reverse the second half
+    prev, curr = None, slow
+    while curr:
+        next_temp = curr.next
+        curr.next = prev
+        prev = curr
+        curr = next_temp
+
+    # Merge two halves
+    first, second = head, prev
+    while second.next:
+        first.next, first = second, first.next
+        second.next, second = first, second.next
+"
+46,Matrix,https://leetcode.com/problems/set-matrix-zeroes/,Set Matrix Zeroes,73,Set Matrix Zeroes,Medium,"['array', 'hash-table', 'matrix']","<p>Given an <code>m x n</code> integer matrix <code>matrix</code>, if an element is <code>0</code>, set its entire row and column to <code>0</code>'s.</p>
+
+<p>You must do it <a href=""https://en.wikipedia.org/wiki/In-place_algorithm"" target=""_blank"">in place</a>.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2020/08/17/mat1.jpg"" style=""width: 450px; height: 169px;"">
+<pre><strong>Input:</strong> matrix = [[1,1,1],[1,0,1],[1,1,1]]
+<strong>Output:</strong> [[1,0,1],[0,0,0],[1,0,1]]
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2020/08/17/mat2.jpg"" style=""width: 450px; height: 137px;"">
+<pre><strong>Input:</strong> matrix = [[0,1,2,0],[3,4,5,2],[1,3,1,5]]
+<strong>Output:</strong> [[0,0,0,0],[0,4,5,0],[0,3,1,0]]
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>m == matrix.length</code></li>
+	<li><code>n == matrix[0].length</code></li>
+	<li><code>1 &lt;= m, n &lt;= 200</code></li>
+	<li><code>-2<sup>31</sup> &lt;= matrix[i][j] &lt;= 2<sup>31</sup> - 1</code></li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong>Follow up:</strong></p>
+
+<ul>
+	<li>A straightforward solution using <code>O(mn)</code> space is probably a bad idea.</li>
+	<li>A simple improvement uses <code>O(m + n)</code> space, but still not the best solution.</li>
+	<li>Could you devise a constant space solution?</li>
+</ul>
+","def setZeroes(matrix):
+    m, n = len(matrix), len(matrix[0])
+    first_row_has_zero = any(matrix[0][j] == 0 for j in range(n))
+    first_col_has_zero = any(matrix[i][0] == 0 for i in range(m))
+
+    # Use the first row and column as markers
+    for i in range(1, m):
+        for j in range(1, n):
+            if matrix[i][j] == 0:
+                matrix[i][0] = matrix[0][j] = 0
+
+    # Set zeros based on markers
+    for i in range(1, m):
+        for j in range(1, n):
+            if matrix[i][0] == 0 or matrix[0][j] == 0:
+                matrix[i][j] = 0
+
+    # Handle the first row
+    if first_row_has_zero:
+        for j in range(n):
+            matrix[0][j] = 0
+
+    # Handle the first column
+    if first_col_has_zero:
+        for i in range(m):
+            matrix[i][0] = 0"
+47,Matrix,https://leetcode.com/problems/spiral-matrix/,Spiral Matrix,54,Spiral Matrix,Medium,"['array', 'matrix', 'simulation']","<p>Given an <code>m x n</code> <code>matrix</code>, return <em>all elements of the</em> <code>matrix</code> <em>in spiral order</em>.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2020/11/13/spiral1.jpg"" style=""width: 242px; height: 242px;"">
+<pre><strong>Input:</strong> matrix = [[1,2,3],[4,5,6],[7,8,9]]
+<strong>Output:</strong> [1,2,3,6,9,8,7,4,5]
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2020/11/13/spiral.jpg"" style=""width: 322px; height: 242px;"">
+<pre><strong>Input:</strong> matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]
+<strong>Output:</strong> [1,2,3,4,8,12,11,10,9,5,6,7]
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>m == matrix.length</code></li>
+	<li><code>n == matrix[i].length</code></li>
+	<li><code>1 &lt;= m, n &lt;= 10</code></li>
+	<li><code>-100 &lt;= matrix[i][j] &lt;= 100</code></li>
+</ul>
+","def spiralOrder(matrix):
+    res = []
+    while matrix:
+        res += matrix.pop(0)
+        matrix = list(zip(*matrix))[::-1]  # Rotate the matrix
+    return res"
+48,Matrix,https://leetcode.com/problems/rotate-image/,Rotate Image,48,Rotate Image,Medium,"['array', 'math', 'matrix']","<p>You are given an <code>n x n</code> 2D <code>matrix</code> representing an image, rotate the image by <strong>90</strong> degrees (clockwise).</p>
+
+<p>You have to rotate the image <a href=""https://en.wikipedia.org/wiki/In-place_algorithm"" target=""_blank""><strong>in-place</strong></a>, which means you have to modify the input 2D matrix directly. <strong>DO NOT</strong> allocate another 2D matrix and do the rotation.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2020/08/28/mat1.jpg"" style=""width: 500px; height: 188px;"">
+<pre><strong>Input:</strong> matrix = [[1,2,3],[4,5,6],[7,8,9]]
+<strong>Output:</strong> [[7,4,1],[8,5,2],[9,6,3]]
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2020/08/28/mat2.jpg"" style=""width: 500px; height: 201px;"">
+<pre><strong>Input:</strong> matrix = [[5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16]]
+<strong>Output:</strong> [[15,13,2,5],[14,3,4,1],[12,6,8,9],[16,7,10,11]]
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>n == matrix.length == matrix[i].length</code></li>
+	<li><code>1 &lt;= n &lt;= 20</code></li>
+	<li><code>-1000 &lt;= matrix[i][j] &lt;= 1000</code></li>
+</ul>
+","def rotate(matrix):
+    n = len(matrix)
+
+    # Transpose the matrix
+    for i in range(n):
+        for j in range(i, n):
+            matrix[j][i], matrix[i][j] = matrix[i][j], matrix[j][i]
+
+    # Reverse each row
+    for i in range(n):
+        matrix[i].reverse()
+"
+49,Matrix,https://leetcode.com/problems/word-search/,Word Search,79,Word Search,Medium,"['array', 'backtracking', 'matrix']","<p>Given an <code>m x n</code> grid of characters <code>board</code> and a string <code>word</code>, return <code>true</code> <em>if</em> <code>word</code> <em>exists in the grid</em>.</p>
+
+<p>The word can be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring. The same letter cell may not be used more than once.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2020/11/04/word2.jpg"" style=""width: 322px; height: 242px;"">
+<pre><strong>Input:</strong> board = [[""A"",""B"",""C"",""E""],[""S"",""F"",""C"",""S""],[""A"",""D"",""E"",""E""]], word = ""ABCCED""
+<strong>Output:</strong> true
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2020/11/04/word-1.jpg"" style=""width: 322px; height: 242px;"">
+<pre><strong>Input:</strong> board = [[""A"",""B"",""C"",""E""],[""S"",""F"",""C"",""S""],[""A"",""D"",""E"",""E""]], word = ""SEE""
+<strong>Output:</strong> true
+</pre>
+
+<p><strong class=""example"">Example 3:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2020/10/15/word3.jpg"" style=""width: 322px; height: 242px;"">
+<pre><strong>Input:</strong> board = [[""A"",""B"",""C"",""E""],[""S"",""F"",""C"",""S""],[""A"",""D"",""E"",""E""]], word = ""ABCB""
+<strong>Output:</strong> false
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>m == board.length</code></li>
+	<li><code>n = board[i].length</code></li>
+	<li><code>1 &lt;= m, n &lt;= 6</code></li>
+	<li><code>1 &lt;= word.length &lt;= 15</code></li>
+	<li><code>board</code> and <code>word</code> consists of only lowercase and uppercase English letters.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong>Follow up:</strong> Could you use search pruning to make your solution faster with a larger <code>board</code>?</p>
+","def exist(board, word):
+    def dfs(i, j, k):
+        if not (0 <= i < len(board)) or not (0 <= j < len(board[0])) or word[k] != board[i][j]:
+            return False
+        if k == len(word) - 1:
+            return True
+        tmp, board[i][j] = board[i][j], '/'
+        res = dfs(i + 1, j, k + 1) or dfs(i - 1, j, k + 1) or dfs(i, j + 1, k + 1) or dfs(i, j - 1, k + 1)
+        board[i][j] = tmp
+        return res
+
+    for i in range(len(board)):
+        for j in range(len(board[0])):
+            if dfs(i, j, 0):
+                return True
+    return False"
+50,String,https://leetcode.com/problems/longest-substring-without-repeating-characters/,Longest Substring Without Repeating Characters,3,Longest Substring Without Repeating Characters,Medium,"['hash-table', 'string', 'sliding-window']","<p>Given a string <code>s</code>, find the length of the <strong>longest</strong> <span data-keyword=""substring-nonempty"" class="" cursor-pointer relative text-dark-blue-s text-sm""><div class=""popover-wrapper inline-block"" data-headlessui-state=""""><div><div aria-expanded=""false"" data-headlessui-state="""" id=""headlessui-popover-button-:rr:""><div><strong>substring</strong></div></div><div style=""position: fixed; z-index: 40; inset: 0px auto auto 0px; transform: translate(367px, 183px);""></div></div></div></span> without repeating characters.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input:</strong> s = ""abcabcbb""
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> The answer is ""abc"", with the length of 3.
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> s = ""bbbbb""
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> The answer is ""b"", with the length of 1.
+</pre>
+
+<p><strong class=""example"">Example 3:</strong></p>
+
+<pre><strong>Input:</strong> s = ""pwwkew""
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> The answer is ""wke"", with the length of 3.
+Notice that the answer must be a substring, ""pwke"" is a subsequence and not a substring.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>0 &lt;= s.length &lt;= 5 * 10<sup>4</sup></code></li>
+	<li><code>s</code> consists of English letters, digits, symbols and spaces.</li>
+</ul>
+","def lengthOfLongestSubstring(s):
+    char_map = {}
+    left = 0
+    max_length = 0
+
+    for right in range(len(s)):
+        if s[right] in char_map and char_map[s[right]] >= left:
+            left = char_map[s[right]] + 1
+        char_map[s[right]] = right
+        max_length = max(max_length, right - left + 1)
+
+    return max_length"
+51,String,https://leetcode.com/problems/longest-repeating-character-replacement/,Longest Repeating Character Replacement,424,Longest Repeating Character Replacement,Medium,"['hash-table', 'string', 'sliding-window']","<p>You are given a string <code>s</code> and an integer <code>k</code>. You can choose any character of the string and change it to any other uppercase English character. You can perform this operation at most <code>k</code> times.</p>
+
+<p>Return <em>the length of the longest substring containing the same letter you can get after performing the above operations</em>.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input:</strong> s = ""ABAB"", k = 2
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> Replace the two 'A's with two 'B's or vice versa.
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> s = ""AABABBA"", k = 1
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> Replace the one 'A' in the middle with 'B' and form ""AABBBBA"".
+The substring ""BBBB"" has the longest repeating letters, which is 4.
+There may exists other ways to achieve this answer too.</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>s</code> consists of only uppercase English letters.</li>
+	<li><code>0 &lt;= k &lt;= s.length</code></li>
+</ul>
+","def characterReplacement(s, k):
+    max_length = 0
+    max_count = 0
+    char_count = {}
+
+    left = 0
+    for right in range(len(s)):
+        char_count[s[right]] = char_count.get(s[right], 0) + 1
+        max_count = max(max_count, char_count[s[right]])
+
+        if right - left + 1 - max_count > k:
+            char_count[s[left]] -= 1
+            left += 1
+
+        max_length = max(max_length, right - left + 1)
+
+    return max_length"
+52,String,https://leetcode.com/problems/minimum-window-substring/,Minimum Window Substring,76,Minimum Window Substring,Hard,"['hash-table', 'string', 'sliding-window']","<p>Given two strings <code>s</code> and <code>t</code> of lengths <code>m</code> and <code>n</code> respectively, return <em>the <strong>minimum window</strong></em> <span data-keyword=""substring-nonempty"" class="" cursor-pointer relative text-dark-blue-s text-sm""><div class=""popover-wrapper inline-block"" data-headlessui-state=""""><div><div aria-expanded=""false"" data-headlessui-state="""" id=""headlessui-popover-button-:rr:""><div><strong><em>substring</em></strong></div></div><div style=""position: fixed; z-index: 40; inset: 0px auto auto 0px; transform: translate(59px, 204px);""></div></div></div></span><em> of </em><code>s</code><em> such that every character in </em><code>t</code><em> (<strong>including duplicates</strong>) is included in the window</em>. If there is no such substring, return <em>the empty string </em><code>""""</code>.</p>
+
+<p>The testcases will be generated such that the answer is <strong>unique</strong>.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input:</strong> s = ""ADOBECODEBANC"", t = ""ABC""
+<strong>Output:</strong> ""BANC""
+<strong>Explanation:</strong> The minimum window substring ""BANC"" includes 'A', 'B', and 'C' from string t.
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> s = ""a"", t = ""a""
+<strong>Output:</strong> ""a""
+<strong>Explanation:</strong> The entire string s is the minimum window.
+</pre>
+
+<p><strong class=""example"">Example 3:</strong></p>
+
+<pre><strong>Input:</strong> s = ""a"", t = ""aa""
+<strong>Output:</strong> """"
+<strong>Explanation:</strong> Both 'a's from t must be included in the window.
+Since the largest window of s only has one 'a', return empty string.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>m == s.length</code></li>
+	<li><code>n == t.length</code></li>
+	<li><code>1 &lt;= m, n &lt;= 10<sup>5</sup></code></li>
+	<li><code>s</code> and <code>t</code> consist of uppercase and lowercase English letters.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong>Follow up:</strong> Could you find an algorithm that runs in <code>O(m + n)</code> time?</p>
+","from collections import Counter
+
+def minWindow(s, t):
+    if not t or not s:
+        return """"
+
+    dict_t = Counter(t)
+    required = len(dict_t)
+
+    l, r = 0, 0
+    formed = 0
+    window_counts = {}
+    ans = float(""inf""), None, None
+
+    while r < len(s):
+        character = s[r]
+        window_counts[character] = window_counts.get(character, 0) + 1
+
+        if character in dict_t and window_counts[character] == dict_t[character]:
+            formed += 1
+
+        while l <= r and formed == required:
+            character = s[l]
+
+            if r - l + 1 < ans[0]:
+                ans = (r - l + 1, l, r)
+
+            window_counts[character] -= 1
+            if character in dict_t and window_counts[character] < dict_t[character]:
+                formed -= 1
+
+            l += 1    
+
+        r += 1
+
+    return """" if ans[0] == float(""inf"") else s[ans[1]:(ans[2] + 1)]"
+53,String,https://leetcode.com/problems/valid-anagram/,Valid Anagram,242,Valid Anagram,Easy,"['hash-table', 'string', 'sorting']","<p>Given two strings <code>s</code> and <code>t</code>, return <code>true</code> <em>if</em> <code>t</code> <em>is an anagram of</em> <code>s</code><em>, and</em> <code>false</code> <em>otherwise</em>.</p>
+
+<p>An <strong>Anagram</strong> is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+<pre><strong>Input:</strong> s = ""anagram"", t = ""nagaram""
+<strong>Output:</strong> true
+</pre><p><strong class=""example"">Example 2:</strong></p>
+<pre><strong>Input:</strong> s = ""rat"", t = ""car""
+<strong>Output:</strong> false
+</pre>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= s.length, t.length &lt;= 5 * 10<sup>4</sup></code></li>
+	<li><code>s</code> and <code>t</code> consist of lowercase English letters.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong>Follow up:</strong> What if the inputs contain Unicode characters? How would you adapt your solution to such a case?</p>
+","from collections import Counter
+
+def isAnagram(s, t):
+    return Counter(s) == Counter(t)"
+54,String,https://leetcode.com/problems/group-anagrams/,Group Anagrams,49,Group Anagrams,Medium,"['array', 'hash-table', 'string', 'sorting']","<p>Given an array of strings <code>strs</code>, group <strong>the anagrams</strong> together. You can return the answer in <strong>any order</strong>.</p>
+
+<p>An <strong>Anagram</strong> is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+<pre><strong>Input:</strong> strs = [""eat"",""tea"",""tan"",""ate"",""nat"",""bat""]
+<strong>Output:</strong> [[""bat""],[""nat"",""tan""],[""ate"",""eat"",""tea""]]
+</pre><p><strong class=""example"">Example 2:</strong></p>
+<pre><strong>Input:</strong> strs = [""""]
+<strong>Output:</strong> [[""""]]
+</pre><p><strong class=""example"">Example 3:</strong></p>
+<pre><strong>Input:</strong> strs = [""a""]
+<strong>Output:</strong> [[""a""]]
+</pre>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= strs.length &lt;= 10<sup>4</sup></code></li>
+	<li><code>0 &lt;= strs[i].length &lt;= 100</code></li>
+	<li><code>strs[i]</code> consists of lowercase English letters.</li>
+</ul>
+","from collections import defaultdict
+
+def groupAnagrams(strs):
+    anagrams = defaultdict(list)
+    for s in strs:
+        anagrams[tuple(sorted(s))].append(s)
+    return list(anagrams.values())"
+55,String,https://leetcode.com/problems/valid-parentheses/,Valid Parentheses,20,Valid Parentheses,Easy,"['string', 'stack']","<p>Given a string <code>s</code> containing just the characters <code>'('</code>, <code>')'</code>, <code>'{'</code>, <code>'}'</code>, <code>'['</code> and <code>']'</code>, determine if the input string is valid.</p>
+
+<p>An input string is valid if:</p>
+
+<ol>
+	<li>Open brackets must be closed by the same type of brackets.</li>
+	<li>Open brackets must be closed in the correct order.</li>
+	<li>Every close bracket has a corresponding open bracket of the same type.</li>
+</ol>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input:</strong> s = ""()""
+<strong>Output:</strong> true
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> s = ""()[]{}""
+<strong>Output:</strong> true
+</pre>
+
+<p><strong class=""example"">Example 3:</strong></p>
+
+<pre><strong>Input:</strong> s = ""(]""
+<strong>Output:</strong> false
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= s.length &lt;= 10<sup>4</sup></code></li>
+	<li><code>s</code> consists of parentheses only <code>'()[]{}'</code>.</li>
+</ul>
+","def isValid(s):
+    stack = []
+    mapping = {"")"": ""("", ""}"": ""{"", ""]"": ""[""}
+
+    for char in s:
+        if char in mapping:
+            top_element = stack.pop() if stack else '#'
+            if mapping[char] != top_element:
+                return False
+        else:
+            stack.append(char)
+
+    return not stack"
+56,String,https://leetcode.com/problems/valid-palindrome/,Valid Palindrome,125,Valid Palindrome,Easy,"['two-pointers', 'string']","<p>A phrase is a <strong>palindrome</strong> if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.</p>
+
+<p>Given a string <code>s</code>, return <code>true</code><em> if it is a <strong>palindrome</strong>, or </em><code>false</code><em> otherwise</em>.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input:</strong> s = ""A man, a plan, a canal: Panama""
+<strong>Output:</strong> true
+<strong>Explanation:</strong> ""amanaplanacanalpanama"" is a palindrome.
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> s = ""race a car""
+<strong>Output:</strong> false
+<strong>Explanation:</strong> ""raceacar"" is not a palindrome.
+</pre>
+
+<p><strong class=""example"">Example 3:</strong></p>
+
+<pre><strong>Input:</strong> s = "" ""
+<strong>Output:</strong> true
+<strong>Explanation:</strong> s is an empty string """" after removing non-alphanumeric characters.
+Since an empty string reads the same forward and backward, it is a palindrome.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= s.length &lt;= 2 * 10<sup>5</sup></code></li>
+	<li><code>s</code> consists only of printable ASCII characters.</li>
+</ul>
+","def isPalindrome(s):
+    filtered_chars = [char.lower() for char in s if char.isalnum()]
+    return filtered_chars == filtered_chars[::-1]"
+57,String,https://leetcode.com/problems/longest-palindromic-substring/,Longest Palindromic Substring,5,Longest Palindromic Substring,Medium,"['string', 'dynamic-programming']","<p>Given a string <code>s</code>, return <em>the longest</em> <span data-keyword=""palindromic-string"" class="" cursor-pointer relative text-dark-blue-s text-sm""><div class=""popover-wrapper inline-block"" data-headlessui-state=""""><div><div aria-expanded=""false"" data-headlessui-state="""" id=""headlessui-popover-button-:rr:""><div><em>palindromic</em></div></div><div style=""position: fixed; z-index: 40; inset: 0px auto auto 0px; transform: translate(297px, 183px);""></div></div></div></span> <span data-keyword=""substring-nonempty"" class="" cursor-pointer relative text-dark-blue-s text-sm""><div class=""popover-wrapper inline-block"" data-headlessui-state=""""><div><div aria-expanded=""false"" data-headlessui-state="""" id=""headlessui-popover-button-:rt:""><div><em>substring</em></div></div><div style=""position: fixed; z-index: 40; inset: 0px auto auto 0px; transform: translate(369px, 183px);""></div></div></div></span> in <code>s</code>.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input:</strong> s = ""babad""
+<strong>Output:</strong> ""bab""
+<strong>Explanation:</strong> ""aba"" is also a valid answer.
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> s = ""cbbd""
+<strong>Output:</strong> ""bb""
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= s.length &lt;= 1000</code></li>
+	<li><code>s</code> consist of only digits and English letters.</li>
+</ul>
+","def longestPalindrome(s):
+    def expandAroundCenter(left, right):
+        while left >= 0 and right < len(s) and s[left] == s[right]:
+            left -= 1
+            right += 1
+        return s[left + 1:right]
+
+    if len(s) < 1:
+        return """"
+    
+    longest = """"
+    for i in range(len(s)):
+        # Odd length palindrome
+        temp = expandAroundCenter(i, i)
+        if len(temp) > len(longest):
+            longest = temp
+        # Even length palindrome
+        temp = expandAroundCenter(i, i + 1)
+        if len(temp) > len(longest):
+            longest = temp
+    
+    return longest"
+58,String,https://leetcode.com/problems/palindromic-substrings/,Palindromic Substrings,647,Palindromic Substrings,Medium,"['string', 'dynamic-programming']","<p>Given a string <code>s</code>, return <em>the number of <strong>palindromic substrings</strong> in it</em>.</p>
+
+<p>A string is a <strong>palindrome</strong> when it reads the same backward as forward.</p>
+
+<p>A <strong>substring</strong> is a contiguous sequence of characters within the string.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input:</strong> s = ""abc""
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> Three palindromic strings: ""a"", ""b"", ""c"".
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> s = ""aaa""
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> Six palindromic strings: ""a"", ""a"", ""a"", ""aa"", ""aa"", ""aaa"".
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= s.length &lt;= 1000</code></li>
+	<li><code>s</code> consists of lowercase English letters.</li>
+</ul>
+","def countSubstrings(s):
+    def expandAroundCenter(left, right):
+        count = 0
+        while left >= 0 and right < len(s) and s[left] == s[right]:
+            left -= 1
+            right += 1
+            count += 1
+        return count
+
+    total_palindromes = 0
+    for i in range(len(s)):
+        total_palindromes += expandAroundCenter(i, i)  # Odd length palindrome
+        total_palindromes += expandAroundCenter(i, i + 1)  # Even length palindrome
+
+    return total_palindromes"
+59,String,https://leetcode.com/problems/encode-and-decode-strings/,Encode and Decode Strings (Leetcode Premium),271,Encode and Decode Strings,Medium,"['array', 'string', 'design']","<p>Design an algorithm to encode <b>a list of strings</b> to <b>a string</b>. The encoded string is then sent over the network and is decoded back to the original list of strings.</p>
+
+<p>Machine 1 (sender) has the function:</p>
+
+<pre>string encode(vector&lt;string&gt; strs) {
+  // ... your code
+  return encoded_string;
+}</pre>
+Machine 2 (receiver) has the function:
+
+<pre>vector&lt;string&gt; decode(string s) {
+  //... your code
+  return strs;
+}
+</pre>
+
+<p>So Machine 1 does:</p>
+
+<pre>string encoded_string = encode(strs);
+</pre>
+
+<p>and Machine 2 does:</p>
+
+<pre>vector&lt;string&gt; strs2 = decode(encoded_string);
+</pre>
+
+<p><code>strs2</code> in Machine 2 should be the same as <code>strs</code> in Machine 1.</p>
+
+<p>Implement the <code>encode</code> and <code>decode</code> methods.</p>
+
+<p>You are not allowed to&nbsp;solve the problem using any serialize methods (such as <code>eval</code>).</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input:</strong> dummy_input = [""Hello"",""World""]
+<strong>Output:</strong> [""Hello"",""World""]
+<strong>Explanation:</strong>
+Machine 1:
+Codec encoder = new Codec();
+String msg = encoder.encode(strs);
+Machine 1 ---msg---&gt; Machine 2
+
+Machine 2:
+Codec decoder = new Codec();
+String[] strs = decoder.decode(msg);
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> dummy_input = [""""]
+<strong>Output:</strong> [""""]
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= strs.length &lt;= 200</code></li>
+	<li><code>0 &lt;= strs[i].length &lt;= 200</code></li>
+	<li><code>strs[i]</code> contains any possible characters out of <code>256</code> valid ASCII characters.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong>Follow up: </strong>Could you write a generalized algorithm to work on any possible set of characters?</p>
+","class Codec:
+    def encode(self, strs):
+        # Encoding each string with its length followed by '#' and then the string itself
+        encoded_string = ''.join(f""{len(s)}#{s}"" for s in strs)
+        return encoded_string
+
+    def decode(self, s):
+        strs = []
+        i = 0
+        while i < len(s):
+            j = s.find('#', i)
+            length = int(s[i:j])
+            strs.append(s[j+1:j+1+length])
+            i = j + 1 + length
+        return strs"
+60,Tree,https://leetcode.com/problems/maximum-depth-of-binary-tree/,Maximum Depth of Binary Tree,104,Maximum Depth of Binary Tree,Easy,"['tree', 'depth-first-search', 'breadth-first-search', 'binary-tree']","<p>Given the <code>root</code> of a binary tree, return <em>its maximum depth</em>.</p>
+
+<p>A binary tree's <strong>maximum depth</strong>&nbsp;is the number of nodes along the longest path from the root node down to the farthest leaf node.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2020/11/26/tmp-tree.jpg"" style=""width: 400px; height: 277px;"">
+<pre><strong>Input:</strong> root = [3,9,20,null,null,15,7]
+<strong>Output:</strong> 3
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> root = [1,null,2]
+<strong>Output:</strong> 2
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li>The number of nodes in the tree is in the range <code>[0, 10<sup>4</sup>]</code>.</li>
+	<li><code>-100 &lt;= Node.val &lt;= 100</code></li>
+</ul>
+","# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+class Solution:
+    def maxDepth(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        else:
+            left_depth = self.maxDepth(root.left)
+            right_depth = self.maxDepth(root.right)
+            return max(left_depth, right_depth) + 1"
+61,Tree,https://leetcode.com/problems/same-tree/,Same Tree,100,Same Tree,Easy,"['tree', 'depth-first-search', 'breadth-first-search', 'binary-tree']","<p>Given the roots of two binary trees <code>p</code> and <code>q</code>, write a function to check if they are the same or not.</p>
+
+<p>Two binary trees are considered the same if they are structurally identical, and the nodes have the same value.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2020/12/20/ex1.jpg"" style=""width: 622px; height: 182px;"">
+<pre><strong>Input:</strong> p = [1,2,3], q = [1,2,3]
+<strong>Output:</strong> true
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2020/12/20/ex2.jpg"" style=""width: 382px; height: 182px;"">
+<pre><strong>Input:</strong> p = [1,2], q = [1,null,2]
+<strong>Output:</strong> false
+</pre>
+
+<p><strong class=""example"">Example 3:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2020/12/20/ex3.jpg"" style=""width: 622px; height: 182px;"">
+<pre><strong>Input:</strong> p = [1,2,1], q = [1,1,2]
+<strong>Output:</strong> false
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li>The number of nodes in both trees is in the range <code>[0, 100]</code>.</li>
+	<li><code>-10<sup>4</sup> &lt;= Node.val &lt;= 10<sup>4</sup></code></li>
+</ul>
+","# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+class Solution:
+    def isSameTree(self, p: TreeNode, q: TreeNode) -> bool:
+        if not p and not q:
+            return True
+        if not p or not q:
+            return False
+        if p.val != q.val:
+            return False
+        
+        return self.isSameTree(p.left, q.left) and self.isSameTree(p.right, q.right)"
+62,Tree,https://leetcode.com/problems/invert-binary-tree/,Invert/Flip Binary Tree,226,Invert Binary Tree,Easy,"['tree', 'depth-first-search', 'breadth-first-search', 'binary-tree']","<p>Given the <code>root</code> of a binary tree, invert the tree, and return <em>its root</em>.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2021/03/14/invert1-tree.jpg"" style=""width: 500px; height: 165px;"">
+<pre><strong>Input:</strong> root = [4,2,7,1,3,6,9]
+<strong>Output:</strong> [4,7,2,9,6,3,1]
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2021/03/14/invert2-tree.jpg"" style=""width: 500px; height: 120px;"">
+<pre><strong>Input:</strong> root = [2,1,3]
+<strong>Output:</strong> [2,3,1]
+</pre>
+
+<p><strong class=""example"">Example 3:</strong></p>
+
+<pre><strong>Input:</strong> root = []
+<strong>Output:</strong> []
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li>The number of nodes in the tree is in the range <code>[0, 100]</code>.</li>
+	<li><code>-100 &lt;= Node.val &lt;= 100</code></li>
+</ul>
+","# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+class Solution:
+    def invertTree(self, root: TreeNode) -> TreeNode:
+        if not root:
+            return None
+        # Swap the left and right children
+        root.left, root.right = root.right, root.left
+        # Recursively invert the children
+        self.invertTree(root.left)
+        self.invertTree(root.right)
+        return root"
+63,Tree,https://leetcode.com/problems/binary-tree-maximum-path-sum/,Binary Tree Maximum Path Sum,124,Binary Tree Maximum Path Sum,Hard,"['dynamic-programming', 'tree', 'depth-first-search', 'binary-tree']","<p>A <strong>path</strong> in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. A node can only appear in the sequence <strong>at most once</strong>. Note that the path does not need to pass through the root.</p>
+
+<p>The <strong>path sum</strong> of a path is the sum of the node's values in the path.</p>
+
+<p>Given the <code>root</code> of a binary tree, return <em>the maximum <strong>path sum</strong> of any <strong>non-empty</strong> path</em>.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2020/10/13/exx1.jpg"" style=""width: 322px; height: 182px;"">
+<pre><strong>Input:</strong> root = [1,2,3]
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> The optimal path is 2 -&gt; 1 -&gt; 3 with a path sum of 2 + 1 + 3 = 6.
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2020/10/13/exx2.jpg"">
+<pre><strong>Input:</strong> root = [-10,9,20,null,null,15,7]
+<strong>Output:</strong> 42
+<strong>Explanation:</strong> The optimal path is 15 -&gt; 20 -&gt; 7 with a path sum of 15 + 20 + 7 = 42.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li>The number of nodes in the tree is in the range <code>[1, 3 * 10<sup>4</sup>]</code>.</li>
+	<li><code>-1000 &lt;= Node.val &lt;= 1000</code></li>
+</ul>
+","# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+class Solution:
+    def maxPathSum(self, root: TreeNode) -> int:
+        def max_gain(node):
+            nonlocal max_sum
+            if not node:
+                return 0
+
+            # Max sum on the left and right sub-trees of node
+            left_gain = max(max_gain(node.left), 0)
+            right_gain = max(max_gain(node.right), 0)
+
+            # The price to start a new path where `node` is a highest node
+            price_newpath = node.val + left_gain + right_gain
+
+            # Update max_sum if it's better to start a new path
+            max_sum = max(max_sum, price_newpath)
+
+            # For recursion, return the max gain if continue the same path
+            return node.val + max(left_gain, right_gain)
+
+        max_sum = float('-inf')
+        max_gain(root)
+        return max_sum"
+64,Tree,https://leetcode.com/problems/binary-tree-level-order-traversal/,Binary Tree Level Order Traversal,102,Binary Tree Level Order Traversal,Medium,"['tree', 'breadth-first-search', 'binary-tree']","<p>Given the <code>root</code> of a binary tree, return <em>the level order traversal of its nodes' values</em>. (i.e., from left to right, level by level).</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2021/02/19/tree1.jpg"" style=""width: 277px; height: 302px;"">
+<pre><strong>Input:</strong> root = [3,9,20,null,null,15,7]
+<strong>Output:</strong> [[3],[9,20],[15,7]]
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> root = [1]
+<strong>Output:</strong> [[1]]
+</pre>
+
+<p><strong class=""example"">Example 3:</strong></p>
+
+<pre><strong>Input:</strong> root = []
+<strong>Output:</strong> []
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li>The number of nodes in the tree is in the range <code>[0, 2000]</code>.</li>
+	<li><code>-1000 &lt;= Node.val &lt;= 1000</code></li>
+</ul>
+","class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def levelOrder(root):
+    if not root:
+        return []
+
+    result = []
+    queue = [root]
+
+    while queue:
+        level_size = len(queue)
+        level = []
+
+        for _ in range(level_size):
+            node = queue.pop(0)
+            level.append(node.val)
+
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
+
+        result.append(level)
+
+    return result
+
+# Example usage
+root = TreeNode(3, TreeNode(9), TreeNode(20, TreeNode(15), TreeNode(7)))
+print(levelOrder(root))  # Output: [[3], [9, 20], [15, 7]]"
+65,Tree,https://leetcode.com/problems/serialize-and-deserialize-binary-tree/,Serialize and Deserialize Binary Tree,297,Serialize and Deserialize Binary Tree,Hard,"['string', 'tree', 'depth-first-search', 'breadth-first-search', 'design', 'binary-tree']","<p>Serialization is the process of converting a data structure or object into a sequence of bits so that it can be stored in a file or memory buffer, or transmitted across a network connection link to be reconstructed later in the same or another computer environment.</p>
+
+<p>Design an algorithm to serialize and deserialize a binary tree. There is no restriction on how your serialization/deserialization algorithm should work. You just need to ensure that a binary tree can be serialized to a string and this string can be deserialized to the original tree structure.</p>
+
+<p><strong>Clarification:</strong> The input/output format is the same as <a href=""https://support.leetcode.com/hc/en-us/articles/360011883654-What-does-1-null-2-3-mean-in-binary-tree-representation-"" target=""_blank"">how LeetCode serializes a binary tree</a>. You do not necessarily need to follow this format, so please be creative and come up with different approaches yourself.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2020/09/15/serdeser.jpg"" style=""width: 442px; height: 324px;"">
+<pre><strong>Input:</strong> root = [1,2,3,null,null,4,5]
+<strong>Output:</strong> [1,2,3,null,null,4,5]
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> root = []
+<strong>Output:</strong> []
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li>The number of nodes in the tree is in the range <code>[0, 10<sup>4</sup>]</code>.</li>
+	<li><code>-1000 &lt;= Node.val &lt;= 1000</code></li>
+</ul>
+","class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+class Codec:
+    def serialize(self, root):
+        """"""Encodes a tree to a single string.""""""
+        def dfs(node):
+            if not node:
+                return ""null,""
+            return str(node.val) + "","" + dfs(node.left) + dfs(node.right)
+        
+        return dfs(root)
+
+    def deserialize(self, data):
+        """"""Decodes your encoded data to tree.""""""
+        def dfs(nodes):
+            val = next(nodes)
+            if val == ""null"":
+                return None
+            node = TreeNode(int(val))
+            node.left = dfs(nodes)
+            node.right = dfs(nodes)
+            return node
+        
+        data_iter = iter(data.split("",""))
+        return dfs(data_iter)
+
+# Example usage
+codec = Codec()
+tree = TreeNode(1, TreeNode(2), TreeNode(3, TreeNode(4), TreeNode(5)))
+serialized = codec.serialize(tree)
+print(""Serialized:"", serialized)
+deserialized = codec.deserialize(serialized)
+print(""Deserialized:"", codec.serialize(deserialized))  # Should be the same as `serialized`"
+66,Tree,https://leetcode.com/problems/subtree-of-another-tree/,Subtree of Another Tree,572,Subtree of Another Tree,Easy,"['tree', 'depth-first-search', 'string-matching', 'binary-tree', 'hash-function']","<p>Given the roots of two binary trees <code>root</code> and <code>subRoot</code>, return <code>true</code> if there is a subtree of <code>root</code> with the same structure and node values of<code> subRoot</code> and <code>false</code> otherwise.</p>
+
+<p>A subtree of a binary tree <code>tree</code> is a tree that consists of a node in <code>tree</code> and all of this node's descendants. The tree <code>tree</code> could also be considered as a subtree of itself.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2021/04/28/subtree1-tree.jpg"" style=""width: 532px; height: 400px;"">
+<pre><strong>Input:</strong> root = [3,4,5,1,2], subRoot = [4,1,2]
+<strong>Output:</strong> true
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2021/04/28/subtree2-tree.jpg"" style=""width: 502px; height: 458px;"">
+<pre><strong>Input:</strong> root = [3,4,5,1,2,null,null,null,null,0], subRoot = [4,1,2]
+<strong>Output:</strong> false
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li>The number of nodes in the <code>root</code> tree is in the range <code>[1, 2000]</code>.</li>
+	<li>The number of nodes in the <code>subRoot</code> tree is in the range <code>[1, 1000]</code>.</li>
+	<li><code>-10<sup>4</sup> &lt;= root.val &lt;= 10<sup>4</sup></code></li>
+	<li><code>-10<sup>4</sup> &lt;= subRoot.val &lt;= 10<sup>4</sup></code></li>
+</ul>
+","class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def isSubtree(root, subRoot):
+    if not subRoot:
+        return True
+    if not root:
+        return False
+    if isSameTree(root, subRoot):
+        return True
+    return isSubtree(root.left, subRoot) or isSubtree(root.right, subRoot)
+
+def isSameTree(p, q):
+    if not p and not q:
+        return True
+    if not p or not q or p.val != q.val:
+        return False
+    return isSameTree(p.left, q.left) and isSameTree(p.right, q.right)
+
+# Example Usage
+root = TreeNode(3, TreeNode(4, TreeNode(1), TreeNode(2)), TreeNode(5))
+subRoot = TreeNode(4, TreeNode(1), TreeNode(2))
+print(isSubtree(root, subRoot))  # Output: True"
+67,Tree,https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/,Construct Binary Tree from Preorder and Inorder Traversal,105,Construct Binary Tree from Preorder and Inorder Traversal,Medium,"['array', 'hash-table', 'divide-and-conquer', 'tree', 'binary-tree']","<p>Given two integer arrays <code>preorder</code> and <code>inorder</code> where <code>preorder</code> is the preorder traversal of a binary tree and <code>inorder</code> is the inorder traversal of the same tree, construct and return <em>the binary tree</em>.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2021/02/19/tree.jpg"" style=""width: 277px; height: 302px;"">
+<pre><strong>Input:</strong> preorder = [3,9,20,15,7], inorder = [9,3,15,20,7]
+<strong>Output:</strong> [3,9,20,null,null,15,7]
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> preorder = [-1], inorder = [-1]
+<strong>Output:</strong> [-1]
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= preorder.length &lt;= 3000</code></li>
+	<li><code>inorder.length == preorder.length</code></li>
+	<li><code>-3000 &lt;= preorder[i], inorder[i] &lt;= 3000</code></li>
+	<li><code>preorder</code> and <code>inorder</code> consist of <strong>unique</strong> values.</li>
+	<li>Each value of <code>inorder</code> also appears in <code>preorder</code>.</li>
+	<li><code>preorder</code> is <strong>guaranteed</strong> to be the preorder traversal of the tree.</li>
+	<li><code>inorder</code> is <strong>guaranteed</strong> to be the inorder traversal of the tree.</li>
+</ul>
+","class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def buildTree(preorder, inorder):
+    if not preorder or not inorder:
+        return None
+
+    # The first element in preorder is the root
+    root_val = preorder[0]
+    root = TreeNode(root_val)
+
+    # Find the index of the root in inorder list
+    mid = inorder.index(root_val)
+
+    # Recursively build the left and right subtrees
+    root.left = buildTree(preorder[1:mid+1], inorder[:mid])
+    root.right = buildTree(preorder[mid+1:], inorder[mid+1:])
+
+    return root
+
+# Example Usage
+preorder = [3,9,20,15,7]
+inorder = [9,3,15,20,7]
+tree = buildTree(preorder, inorder)"
+68,Tree,https://leetcode.com/problems/validate-binary-search-tree/,Validate Binary Search Tree,98,Validate Binary Search Tree,Medium,"['tree', 'depth-first-search', 'binary-search-tree', 'binary-tree']","<p>Given the <code>root</code> of a binary tree, <em>determine if it is a valid binary search tree (BST)</em>.</p>
+
+<p>A <strong>valid BST</strong> is defined as follows:</p>
+
+<ul>
+	<li>The left <span data-keyword=""subtree"" class="" cursor-pointer relative text-dark-blue-s text-sm""><div class=""popover-wrapper inline-block"" data-headlessui-state=""""><div><div aria-expanded=""false"" data-headlessui-state="""" id=""headlessui-popover-button-:rr:""><div>subtree</div></div><div style=""position: fixed; z-index: 40; inset: 0px auto auto 0px; transform: translate(120px, 257px);""></div></div></div></span> of a node contains only nodes with keys <strong>less than</strong> the node's key.</li>
+	<li>The right subtree of a node contains only nodes with keys <strong>greater than</strong> the node's key.</li>
+	<li>Both the left and right subtrees must also be binary search trees.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2020/12/01/tree1.jpg"" style=""width: 302px; height: 182px;"">
+<pre><strong>Input:</strong> root = [2,1,3]
+<strong>Output:</strong> true
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2020/12/01/tree2.jpg"" style=""width: 422px; height: 292px;"">
+<pre><strong>Input:</strong> root = [5,1,4,null,null,3,6]
+<strong>Output:</strong> false
+<strong>Explanation:</strong> The root node's value is 5 but its right child's value is 4.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li>The number of nodes in the tree is in the range <code>[1, 10<sup>4</sup>]</code>.</li>
+	<li><code>-2<sup>31</sup> &lt;= Node.val &lt;= 2<sup>31</sup> - 1</code></li>
+</ul>
+","class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def isValidBST(root, lower=float('-inf'), upper=float('inf')):
+    if not root:
+        return True
+
+    val = root.val
+    if val <= lower or val >= upper:
+        return False
+
+    if not isValidBST(root.right, val, upper):
+        return False
+
+    if not isValidBST(root.left, lower, val):
+        return False
+
+    return True
+
+# Example Usage
+root1 = TreeNode(2, TreeNode(1), TreeNode(3))
+print(isValidBST(root1)) # True
+
+root2 = TreeNode(5, TreeNode(1), TreeNode(4, TreeNode(3), TreeNode(6)))
+print(isValidBST(root2)) # False"
+69,Tree,https://leetcode.com/problems/kth-smallest-element-in-a-bst/,Kth Smallest Element in a BST,230,Kth Smallest Element in a BST,Medium,"['tree', 'depth-first-search', 'binary-search-tree', 'binary-tree']","<p>Given the <code>root</code> of a binary search tree, and an integer <code>k</code>, return <em>the</em> <code>k<sup>th</sup></code> <em>smallest value (<strong>1-indexed</strong>) of all the values of the nodes in the tree</em>.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2021/01/28/kthtree1.jpg"" style=""width: 212px; height: 301px;"">
+<pre><strong>Input:</strong> root = [3,1,4,null,2], k = 1
+<strong>Output:</strong> 1
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2021/01/28/kthtree2.jpg"" style=""width: 382px; height: 302px;"">
+<pre><strong>Input:</strong> root = [5,3,6,2,4,null,null,1], k = 3
+<strong>Output:</strong> 3
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li>The number of nodes in the tree is <code>n</code>.</li>
+	<li><code>1 &lt;= k &lt;= n &lt;= 10<sup>4</sup></code></li>
+	<li><code>0 &lt;= Node.val &lt;= 10<sup>4</sup></code></li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong>Follow up:</strong> If the BST is modified often (i.e., we can do insert and delete operations) and you need to find the kth smallest frequently, how would you optimize?</p>
+","class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def kthSmallest(root, k):
+    def inOrderTraversal(node):
+        if not node:
+            return []
+        return inOrderTraversal(node.left) + [node.val] + inOrderTraversal(node.right)
+
+    elements = inOrderTraversal(root)
+    return elements[k - 1]
+
+# Example Usage
+root1 = TreeNode(3, TreeNode(1, None, TreeNode(2)), TreeNode(4))
+print(kthSmallest(root1, 1)) # Output: 1
+
+root2 = TreeNode(5, TreeNode(3, TreeNode(2, TreeNode(1)), TreeNode(4)), TreeNode(6))
+print(kthSmallest(root2, 3)) # Output: 3"
+70,Tree,https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/,Lowest Common Ancestor of BST,235,Lowest Common Ancestor of a Binary Search Tree,Medium,"['tree', 'depth-first-search', 'binary-search-tree', 'binary-tree']","<p>Given a binary search tree (BST), find the lowest common ancestor (LCA) node of two given nodes in the BST.</p>
+
+<p>According to the <a href=""https://en.wikipedia.org/wiki/Lowest_common_ancestor"" target=""_blank"">definition of LCA on Wikipedia</a>: “The lowest common ancestor is defined between two nodes <code>p</code> and <code>q</code> as the lowest node in <code>T</code> that has both <code>p</code> and <code>q</code> as descendants (where we allow <strong>a node to be a descendant of itself</strong>).”</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2018/12/14/binarysearchtree_improved.png"" style=""width: 200px; height: 190px;"">
+<pre><strong>Input:</strong> root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 8
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> The LCA of nodes 2 and 8 is 6.
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2018/12/14/binarysearchtree_improved.png"" style=""width: 200px; height: 190px;"">
+<pre><strong>Input:</strong> root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 4
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> The LCA of nodes 2 and 4 is 2, since a node can be a descendant of itself according to the LCA definition.
+</pre>
+
+<p><strong class=""example"">Example 3:</strong></p>
+
+<pre><strong>Input:</strong> root = [2,1], p = 2, q = 1
+<strong>Output:</strong> 2
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li>The number of nodes in the tree is in the range <code>[2, 10<sup>5</sup>]</code>.</li>
+	<li><code>-10<sup>9</sup> &lt;= Node.val &lt;= 10<sup>9</sup></code></li>
+	<li>All <code>Node.val</code> are <strong>unique</strong>.</li>
+	<li><code>p != q</code></li>
+	<li><code>p</code> and <code>q</code> will exist in the BST.</li>
+</ul>
+","class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def lowestCommonAncestor(root, p, q):
+    current = root
+
+    while current:
+        if p.val > current.val and q.val > current.val:
+            current = current.right
+        elif p.val < current.val and q.val < current.val:
+            current = current.left
+        else:
+            return current
+
+# Example Usage
+root = TreeNode(6, TreeNode(2, TreeNode(0), TreeNode(4, TreeNode(3), TreeNode(5))), TreeNode(8, TreeNode(7), TreeNode(9)))
+p = TreeNode(2)
+q = TreeNode(8)
+print(lowestCommonAncestor(root, p, q).val)  # Output: 6
+
+p = TreeNode(2)
+q = TreeNode(4)
+print(lowestCommonAncestor(root, p, q).val)  # Output: 2"
+71,Tree,https://leetcode.com/problems/implement-trie-prefix-tree/,Implement Trie (Prefix Tree),208,Implement Trie (Prefix Tree),Medium,"['hash-table', 'string', 'design', 'trie']","<p>A <a href=""https://en.wikipedia.org/wiki/Trie"" target=""_blank""><strong>trie</strong></a> (pronounced as ""try"") or <strong>prefix tree</strong> is a tree data structure used to efficiently store and retrieve keys in a dataset of strings. There are various applications of this data structure, such as autocomplete and spellchecker.</p>
+
+<p>Implement the Trie class:</p>
+
+<ul>
+	<li><code>Trie()</code> Initializes the trie object.</li>
+	<li><code>void insert(String word)</code> Inserts the string <code>word</code> into the trie.</li>
+	<li><code>boolean search(String word)</code> Returns <code>true</code> if the string <code>word</code> is in the trie (i.e., was inserted before), and <code>false</code> otherwise.</li>
+	<li><code>boolean startsWith(String prefix)</code> Returns <code>true</code> if there is a previously inserted string <code>word</code> that has the prefix <code>prefix</code>, and <code>false</code> otherwise.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input</strong>
+[""Trie"", ""insert"", ""search"", ""search"", ""startsWith"", ""insert"", ""search""]
+[[], [""apple""], [""apple""], [""app""], [""app""], [""app""], [""app""]]
+<strong>Output</strong>
+[null, null, true, false, true, null, true]
+
+<strong>Explanation</strong>
+Trie trie = new Trie();
+trie.insert(""apple"");
+trie.search(""apple"");   // return True
+trie.search(""app"");     // return False
+trie.startsWith(""app""); // return True
+trie.insert(""app"");
+trie.search(""app"");     // return True
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= word.length, prefix.length &lt;= 2000</code></li>
+	<li><code>word</code> and <code>prefix</code> consist only of lowercase English letters.</li>
+	<li>At most <code>3 * 10<sup>4</sup></code> calls <strong>in total</strong> will be made to <code>insert</code>, <code>search</code>, and <code>startsWith</code>.</li>
+</ul>
+","class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.endOfWord = False
+
+class Trie:
+
+    def __init__(self):
+        self.root = TrieNode()
+
+    def insert(self, word: str) -> None:
+        current = self.root
+        for ch in word:
+            if ch not in current.children:
+                current.children[ch] = TrieNode()
+            current = current.children[ch]
+        current.endOfWord = True
+
+    def search(self, word: str) -> bool:
+        current = self.root
+        for ch in word:
+            if ch not in current.children:
+                return False
+            current = current.children[ch]
+        return current.endOfWord
+
+    def startsWith(self, prefix: str) -> bool:
+        current = self.root
+        for ch in prefix:
+            if ch not in current.children:
+                return False
+            current = current.children[ch]
+        return True
+
+# Example Usage
+trie = Trie()
+trie.insert(""apple"")
+print(trie.search(""apple""))  # Output: True
+print(trie.search(""app""))    # Output: False
+print(trie.startsWith(""app""))  # Output: True
+trie.insert(""app"")
+print(trie.search(""app""))    # Output: True"
+72,Tree,https://leetcode.com/problems/add-and-search-word-data-structure-design/,Add and Search Word,211,Design Add and Search Words Data Structure,Medium,"['string', 'depth-first-search', 'design', 'trie']","<p>Design a data structure that supports adding new words and finding if a string matches any previously added string.</p>
+
+<p>Implement the <code>WordDictionary</code> class:</p>
+
+<ul>
+	<li><code>WordDictionary()</code>&nbsp;Initializes the object.</li>
+	<li><code>void addWord(word)</code> Adds <code>word</code> to the data structure, it can be matched later.</li>
+	<li><code>bool search(word)</code>&nbsp;Returns <code>true</code> if there is any string in the data structure that matches <code>word</code>&nbsp;or <code>false</code> otherwise. <code>word</code> may contain dots <code>'.'</code> where dots can be matched with any letter.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example:</strong></p>
+
+<pre><strong>Input</strong>
+[""WordDictionary"",""addWord"",""addWord"",""addWord"",""search"",""search"",""search"",""search""]
+[[],[""bad""],[""dad""],[""mad""],[""pad""],[""bad""],["".ad""],[""b..""]]
+<strong>Output</strong>
+[null,null,null,null,false,true,true,true]
+
+<strong>Explanation</strong>
+WordDictionary wordDictionary = new WordDictionary();
+wordDictionary.addWord(""bad"");
+wordDictionary.addWord(""dad"");
+wordDictionary.addWord(""mad"");
+wordDictionary.search(""pad""); // return False
+wordDictionary.search(""bad""); // return True
+wordDictionary.search("".ad""); // return True
+wordDictionary.search(""b..""); // return True
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= word.length &lt;= 25</code></li>
+	<li><code>word</code> in <code>addWord</code> consists of lowercase English letters.</li>
+	<li><code>word</code> in <code>search</code> consist of <code>'.'</code> or lowercase English letters.</li>
+	<li>There will be at most <code>2</code> dots in <code>word</code> for <code>search</code> queries.</li>
+	<li>At most <code>10<sup>4</sup></code> calls will be made to <code>addWord</code> and <code>search</code>.</li>
+</ul>
+","class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.isEndOfWord = False
+
+class WordDictionary:
+
+    def __init__(self):
+        self.root = TrieNode()
+
+    def addWord(self, word: str) -> None:
+        current = self.root
+        for ch in word:
+            if ch not in current.children:
+                current.children[ch] = TrieNode()
+            current = current.children[ch]
+        current.isEndOfWord = True
+
+    def search(self, word: str) -> bool:
+        return self._search_in_node(word, self.root)
+    
+    def _search_in_node(self, word, node):
+        for i, ch in enumerate(word):
+            if ch not in node.children:
+                # if the current character is '.', check all possible nodes at this level
+                if ch == '.':
+                    for child in node.children.values():
+                        if self._search_in_node(word[i+1:], child):
+                            return True
+                return False
+            else:
+                node = node.children[ch]
+        return node.isEndOfWord
+
+# Example Usage
+wordDictionary = WordDictionary()
+wordDictionary.addWord(""bad"")
+wordDictionary.addWord(""dad"")
+wordDictionary.addWord(""mad"")
+print(wordDictionary.search(""pad"")) # Output: False
+print(wordDictionary.search(""bad"")) # Output: True
+print(wordDictionary.search("".ad"")) # Output: True
+print(wordDictionary.search(""b.."")) # Output: True"
+73,Tree,https://leetcode.com/problems/word-search-ii/,Word Search II,212,Word Search II,Hard,"['array', 'string', 'backtracking', 'trie', 'matrix']","<p>Given an <code>m x n</code> <code>board</code>&nbsp;of characters and a list of strings <code>words</code>, return <em>all words on the board</em>.</p>
+
+<p>Each word must be constructed from letters of sequentially adjacent cells, where <strong>adjacent cells</strong> are horizontally or vertically neighboring. The same letter cell may not be used more than once in a word.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2020/11/07/search1.jpg"" style=""width: 322px; height: 322px;"">
+<pre><strong>Input:</strong> board = [[""o"",""a"",""a"",""n""],[""e"",""t"",""a"",""e""],[""i"",""h"",""k"",""r""],[""i"",""f"",""l"",""v""]], words = [""oath"",""pea"",""eat"",""rain""]
+<strong>Output:</strong> [""eat"",""oath""]
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+<img alt="""" src=""https://assets.leetcode.com/uploads/2020/11/07/search2.jpg"" style=""width: 162px; height: 162px;"">
+<pre><strong>Input:</strong> board = [[""a"",""b""],[""c"",""d""]], words = [""abcb""]
+<strong>Output:</strong> []
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>m == board.length</code></li>
+	<li><code>n == board[i].length</code></li>
+	<li><code>1 &lt;= m, n &lt;= 12</code></li>
+	<li><code>board[i][j]</code> is a lowercase English letter.</li>
+	<li><code>1 &lt;= words.length &lt;= 3 * 10<sup>4</sup></code></li>
+	<li><code>1 &lt;= words[i].length &lt;= 10</code></li>
+	<li><code>words[i]</code> consists of lowercase English letters.</li>
+	<li>All the strings of <code>words</code> are unique.</li>
+</ul>
+","class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.isEndOfWord = False
+        self.word = None
+
+def buildTrie(words):
+    root = TrieNode()
+    for word in words:
+        node = root
+        for char in word:
+            if char not in node.children:
+                node.children[char] = TrieNode()
+            node = node.children[char]
+        node.isEndOfWord = True
+        node.word = word
+    return root
+
+def findWords(board, words):
+    root = buildTrie(words)
+    rows, cols = len(board), len(board[0])
+    result = set()
+
+    def dfs(r, c, node):
+        char = board[r][c]
+        if char not in node.children:
+            return
+        next_node = node.children[char]
+        if next_node.isEndOfWord:
+            result.add(next_node.word)
+
+        board[r][c] = '#'  # Mark as visited
+        for dr, dc in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+            nr, nc = r + dr, c + dc
+            if 0 <= nr < rows and 0 <= nc < cols and board[nr][nc] != '#':
+                dfs(nr, nc, next_node)
+        board[r][c] = char  # Backtrack
+
+    for r in range(rows):
+        for c in range(cols):
+            dfs(r, c, root)
+
+    return list(result)
+
+# Example usage
+board = [[""o"",""a"",""a"",""n""],[""e"",""t"",""a"",""e""],[""i"",""h"",""k"",""r""],[""i"",""f"",""l"",""v""]]
+words = [""oath"",""pea"",""eat"",""rain""]
+print(findWords(board, words))  # Output: ['eat', 'oath']"
+74,Heap,https://leetcode.com/problems/merge-k-sorted-lists/,Merge K Sorted Lists,23,Merge k Sorted Lists,Hard,"['linked-list', 'divide-and-conquer', 'heap-priority-queue', 'merge-sort']","<p>You are given an array of <code>k</code> linked-lists <code>lists</code>, each linked-list is sorted in ascending order.</p>
+
+<p><em>Merge all the linked-lists into one sorted linked-list and return it.</em></p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input:</strong> lists = [[1,4,5],[1,3,4],[2,6]]
+<strong>Output:</strong> [1,1,2,3,4,4,5,6]
+<strong>Explanation:</strong> The linked-lists are:
+[
+  1-&gt;4-&gt;5,
+  1-&gt;3-&gt;4,
+  2-&gt;6
+]
+merging them into one sorted list:
+1-&gt;1-&gt;2-&gt;3-&gt;4-&gt;4-&gt;5-&gt;6
+</pre>
+
+<p><strong class=""example"">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> lists = []
+<strong>Output:</strong> []
+</pre>
+
+<p><strong class=""example"">Example 3:</strong></p>
+
+<pre><strong>Input:</strong> lists = [[]]
+<strong>Output:</strong> []
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>k == lists.length</code></li>
+	<li><code>0 &lt;= k &lt;= 10<sup>4</sup></code></li>
+	<li><code>0 &lt;= lists[i].length &lt;= 500</code></li>
+	<li><code>-10<sup>4</sup> &lt;= lists[i][j] &lt;= 10<sup>4</sup></code></li>
+	<li><code>lists[i]</code> is sorted in <strong>ascending order</strong>.</li>
+	<li>The sum of <code>lists[i].length</code> will not exceed <code>10<sup>4</sup></code>.</li>
+</ul>
+","import heapq
+
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def mergeKLists(lists):
+    min_heap = []
+
+    # Define a comparison function for ListNode, as heapq only works with comparable elements
+    ListNode.__lt__ = lambda self, other: self.val < other.val
+
+    # Initialize the heap
+    for l in lists:
+        if l:
+            heapq.heappush(min_heap, l)
+
+    # Create a dummy node and a current pointer
+    dummy = ListNode()
+    current = dummy
+
+    # Merge the lists
+    while min_heap:
+        node = heapq.heappop(min_heap)
+        current.next = node
+        current = current.next
+
+        if node.next:
+            heapq.heappush(min_heap, node.next)
+
+    return dummy.next
+
+# Example usage
+# Assuming lists is a list of ListNode objects
+"
+75,Heap,https://leetcode.com/problems/top-k-frequent-elements/,Top K Frequent Elements,347,Top K Frequent Elements,Medium,"['array', 'hash-table', 'divide-and-conquer', 'sorting', 'heap-priority-queue', 'bucket-sort', 'counting', 'quickselect']","<p>Given an integer array <code>nums</code> and an integer <code>k</code>, return <em>the</em> <code>k</code> <em>most frequent elements</em>. You may return the answer in <strong>any order</strong>.</p>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+<pre><strong>Input:</strong> nums = [1,1,1,2,2,3], k = 2
+<strong>Output:</strong> [1,2]
+</pre><p><strong class=""example"">Example 2:</strong></p>
+<pre><strong>Input:</strong> nums = [1], k = 1
+<strong>Output:</strong> [1]
+</pre>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>-10<sup>4</sup> &lt;= nums[i] &lt;= 10<sup>4</sup></code></li>
+	<li><code>k</code> is in the range <code>[1, the number of unique elements in the array]</code>.</li>
+	<li>It is <strong>guaranteed</strong> that the answer is <strong>unique</strong>.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong>Follow up:</strong> Your algorithm's time complexity must be better than <code>O(n log n)</code>, where n is the array's size.</p>
+","import heapq
+from collections import Counter
+
+def topKFrequent(nums, k):
+    # Count the frequency of each element
+    freq_map = Counter(nums)
+    
+    # Create a min heap
+    min_heap = []
+    
+    # Iterate over the frequency map
+    for num, freq in freq_map.items():
+        heapq.heappush(min_heap, (freq, num))
+        
+        # If the heap size exceeds k, pop the smallest element
+        if len(min_heap) > k:
+            heapq.heappop(min_heap)
+    
+    # Extract the elements from the heap
+    top_k = [num for freq, num in min_heap]
+    return top_k
+
+# Example usage
+nums = [1,1,1,2,2,3]
+k = 2
+print(topKFrequent(nums, k))  # Output: [1, 2]"
+76,Heap,https://leetcode.com/problems/find-median-from-data-stream/,Find Median from Data Stream,295,Find Median from Data Stream,Hard,"['two-pointers', 'design', 'sorting', 'heap-priority-queue', 'data-stream']","<p>The <strong>median</strong> is the middle value in an ordered integer list. If the size of the list is even, there is no middle value, and the median is the mean of the two middle values.</p>
+
+<ul>
+	<li>For example, for <code>arr = [2,3,4]</code>, the median is <code>3</code>.</li>
+	<li>For example, for <code>arr = [2,3]</code>, the median is <code>(2 + 3) / 2 = 2.5</code>.</li>
+</ul>
+
+<p>Implement the MedianFinder class:</p>
+
+<ul>
+	<li><code>MedianFinder()</code> initializes the <code>MedianFinder</code> object.</li>
+	<li><code>void addNum(int num)</code> adds the integer <code>num</code> from the data stream to the data structure.</li>
+	<li><code>double findMedian()</code> returns the median of all elements so far. Answers within <code>10<sup>-5</sup></code> of the actual answer will be accepted.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong class=""example"">Example 1:</strong></p>
+
+<pre><strong>Input</strong>
+[""MedianFinder"", ""addNum"", ""addNum"", ""findMedian"", ""addNum"", ""findMedian""]
+[[], [1], [2], [], [3], []]
+<strong>Output</strong>
+[null, null, null, 1.5, null, 2.0]
+
+<strong>Explanation</strong>
+MedianFinder medianFinder = new MedianFinder();
+medianFinder.addNum(1);    // arr = [1]
+medianFinder.addNum(2);    // arr = [1, 2]
+medianFinder.findMedian(); // return 1.5 (i.e., (1 + 2) / 2)
+medianFinder.addNum(3);    // arr[1, 2, 3]
+medianFinder.findMedian(); // return 2.0
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>-10<sup>5</sup> &lt;= num &lt;= 10<sup>5</sup></code></li>
+	<li>There will be at least one element in the data structure before calling <code>findMedian</code>.</li>
+	<li>At most <code>5 * 10<sup>4</sup></code> calls will be made to <code>addNum</code> and <code>findMedian</code>.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong>Follow up:</strong></p>
+
+<ul>
+	<li>If all integer numbers from the stream are in the range <code>[0, 100]</code>, how would you optimize your solution?</li>
+	<li>If <code>99%</code> of all integer numbers from the stream are in the range <code>[0, 100]</code>, how would you optimize your solution?</li>
+</ul>
+","import heapq
+
+class MedianFinder:
+
+    def __init__(self):
+        # Max heap to store the lower half of elements (negative values)
+        self.lower_half = []
+        # Min heap to store the upper half of elements
+        self.upper_half = []
+
+    def addNum(self, num: int) -> None:
+        # Add the number to the appropriate heap
+        if not self.lower_half or num <= -self.lower_half[0]:
+            heapq.heappush(self.lower_half, -num)
+        else:
+            heapq.heappush(self.upper_half, num)
+        
+        # Balance the heaps to ensure their sizes differ by at most 1
+        if len(self.lower_half) > len(self.upper_half) + 1:
+            heapq.heappush(self.upper_half, -heapq.heappop(self.lower_half))
+        elif len(self.upper_half) > len(self.lower_half):
+            heapq.heappush(self.lower_half, -heapq.heappop(self.upper_half))
+
+    def findMedian(self) -> float:
+        # Check if the total number of elements is even
+        if len(self.lower_half) == len(self.upper_half):
+            return (-self.lower_half[0] + self.upper_half[0]) / 2.0
+        else:
+            return -self.lower_half[0]
+
+# Example usage:
+medianFinder = MedianFinder()
+medianFinder.addNum(1)
+medianFinder.addNum(2)
+print(medianFinder.findMedian())  # Output: 1.5
+medianFinder.addNum(3)
+print(medianFinder.findMedian())  # Output: 2.0"
