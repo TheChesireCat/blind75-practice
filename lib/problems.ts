@@ -35,7 +35,7 @@ export function sortByCategory(a: string, b: string): number {
 }
 
 export const DIFFICULTY_COLOR: Record<string, string> = {
-  Easy: "text-green-400",
-  Medium: "text-yellow-400",
-  Hard: "text-red-400",
+  Easy: "text-easy",
+  Medium: "text-medium",
+  Hard: "text-hard",
 };

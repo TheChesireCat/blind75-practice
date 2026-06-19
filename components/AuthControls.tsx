@@ -45,7 +45,7 @@ export default function AuthControls() {
         <span className="text-muted hidden sm:inline">{user.email}</span>
         <button
           onClick={signOut}
-          className="rounded-md border border-border px-2.5 py-1 text-muted hover:text-white transition-colors"
+          className="rounded-md border border-border px-2.5 py-1 text-muted hover:text-fg transition-colors"
         >
           Sign out
         </button>

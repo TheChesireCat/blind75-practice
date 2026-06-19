@@ -106,8 +106,8 @@ export default function Home() {
               onClick={() => setDiff(diff === d ? null : d)}
               className={`rounded-md border px-3 py-2 text-sm transition-colors ${
                 diff === d
-                  ? "border-accent text-white"
-                  : "border-border text-muted hover:text-white"
+                  ? "border-accent text-fg"
+                  : "border-border text-muted hover:text-fg"
               }`}
             >
               {d}
@@ -118,8 +118,8 @@ export default function Home() {
           onClick={() => setOnlyUnsolved(!onlyUnsolved)}
           className={`rounded-md border px-3 py-2 text-sm transition-colors ${
             onlyUnsolved
-              ? "border-accent text-white"
-              : "border-border text-muted hover:text-white"
+              ? "border-accent text-fg"
+              : "border-border text-muted hover:text-fg"
           }`}
         >
           Unsolved
@@ -146,9 +146,9 @@ export default function Home() {
                     <span
                       className={`h-2 w-2 shrink-0 rounded-full ${
                         status === "solved"
-                          ? "bg-green-400"
+                          ? "bg-easy"
                           : status === "attempted"
-                            ? "bg-yellow-400"
+                            ? "bg-medium"
                             : "bg-border"
                       }`}
                       title={status ?? "todo"}

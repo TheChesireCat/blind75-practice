@@ -3,10 +3,14 @@
 import { useMemo, useState, useEffect } from "react";
 import Link from "next/link";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import {
+  oneDark,
+  oneLight,
+} from "react-syntax-highlighter/dist/esm/styles/prism";
 import { db } from "@/lib/db";
 import { id } from "@instantdb/react";
 import { PROBLEMS, Problem, DIFFICULTY_COLOR } from "@/lib/problems";
+import { useTheme } from "@/components/ThemeProvider";
 
 const STATUSES = [
   { key: "todo", label: "To do" },
@@ -17,6 +21,15 @@ const STATUSES = [
 export default function ProblemPage({ params }: { params: { id: string } }) {
   const pid = Number(params.id);
   const { user } = db.useAuth();
+  const { theme } = useTheme();
+
+  // Sequence for prev/next navigation (PROBLEMS is ordered by pid).
+  const seqIndex = PROBLEMS.findIndex((p) => p.pid === pid);
+  const prev = seqIndex > 0 ? PROBLEMS[seqIndex - 1] : null;
+  const next =
+    seqIndex >= 0 && seqIndex < PROBLEMS.length - 1
+      ? PROBLEMS[seqIndex + 1]
+      : null;
 
   const { data } = db.useQuery(
     user
@@ -80,12 +93,45 @@ export default function ProblemPage({ params }: { params: { id: string } }) {
 
   return (
     <div>
-      <Link
-        href="/"
-        className="text-sm text-muted hover:text-white transition-colors"
-      >
-        ← all problems
-      </Link>
+      <div className="flex items-center justify-between gap-2">
+        <Link
+          href="/"
+          className="text-sm text-muted hover:text-fg transition-colors"
+        >
+          ← all problems
+        </Link>
+        <div className="flex items-center gap-1.5 text-xs">
+          <span className="text-muted font-mono mr-1">
+            {seqIndex + 1} / {PROBLEMS.length}
+          </span>
+          {prev ? (
+            <Link
+              href={`/problem/${prev.pid}`}
+              title={prev.title}
+              className="rounded-md border border-border px-2 py-1 text-muted hover:text-fg transition-colors"
+            >
+              ←
+            </Link>
+          ) : (
+            <span className="rounded-md border border-border px-2 py-1 text-border cursor-not-allowed">
+              ←
+            </span>
+          )}
+          {next ? (
+            <Link
+              href={`/problem/${next.pid}`}
+              title={next.title}
+              className="rounded-md border border-border px-2 py-1 text-muted hover:text-fg transition-colors"
+            >
+              →
+            </Link>
+          ) : (
+            <span className="rounded-md border border-border px-2 py-1 text-border cursor-not-allowed">
+              →
+            </span>
+          )}
+        </div>
+      </div>
 
       <div className="mt-3 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
         <div className="min-w-0">
@@ -112,7 +158,7 @@ export default function ProblemPage({ params }: { params: { id: string } }) {
           href={problem.slug}
           target="_blank"
           rel="noreferrer"
-          className="self-start shrink-0 rounded-md border border-border px-3 py-1.5 text-xs text-muted hover:text-white transition-colors"
+          className="self-start shrink-0 rounded-md border border-border px-3 py-1.5 text-xs text-muted hover:text-fg transition-colors"
         >
           LeetCode ↗
         </a>
@@ -132,8 +178,8 @@ export default function ProblemPage({ params }: { params: { id: string } }) {
             onClick={() => save({ status: s.key })}
             className={`rounded-md border px-3 py-1.5 text-xs transition-colors ${
               status === s.key
-                ? "border-accent text-white"
-                : "border-border text-muted hover:text-white"
+                ? "border-accent text-fg"
+                : "border-border text-muted hover:text-fg"
             }`}
           >
             {s.label}
@@ -197,20 +243,26 @@ export default function ProblemPage({ params }: { params: { id: string } }) {
               </h2>
               <button
                 onClick={() => setShowSolution((v) => !v)}
-                className="rounded-md border border-border px-3 py-1 text-xs text-muted hover:text-white transition-colors"
+                className="rounded-md border border-border px-3 py-1 text-xs text-muted hover:text-fg transition-colors"
               >
                 {showSolution ? "Hide" : "Reveal"}
               </button>
             </div>
             {showSolution ? (
-              <div className="rounded-lg border border-border overflow-x-auto text-sm">
+              <div className="rounded-lg border border-border bg-panel overflow-x-auto text-sm">
                 <SyntaxHighlighter
                   language="python"
-                  style={oneDark}
+                  style={theme === "light" ? oneLight : oneDark}
+                  // Single uniform background comes from the wrapper above;
+                  // make pre + the inline <code> transparent so we don't get
+                  // the per-line background boxes the theme adds by default.
                   customStyle={{
                     margin: 0,
-                    background: "#161b22",
+                    background: "transparent",
                     fontSize: "0.8rem",
+                  }}
+                  codeTagProps={{
+                    style: { background: "transparent", textShadow: "none" },
                   }}
                 >
                   {problem.solution}
@@ -219,13 +271,43 @@ export default function ProblemPage({ params }: { params: { id: string } }) {
             ) : (
               <button
                 onClick={() => setShowSolution(true)}
-                className="w-full rounded-lg border border-dashed border-border py-10 text-sm text-muted hover:border-accent hover:text-white transition-colors"
+                className="w-full rounded-lg border border-dashed border-border py-10 text-sm text-muted hover:border-accent hover:text-fg transition-colors"
               >
                 Solution hidden — give it a try first
               </button>
             )}
           </div>
         </div>
+      </div>
+
+      {/* prev / next navigation */}
+      <div className="mt-8 grid grid-cols-2 gap-3">
+        {prev ? (
+          <Link
+            href={`/problem/${prev.pid}`}
+            className="rounded-lg border border-border p-3 hover:border-accent transition-colors group"
+          >
+            <div className="text-xs text-muted">← Previous</div>
+            <div className="text-sm group-hover:text-fg truncate">
+              {prev.no}. {prev.title}
+            </div>
+          </Link>
+        ) : (
+          <span />
+        )}
+        {next ? (
+          <Link
+            href={`/problem/${next.pid}`}
+            className="rounded-lg border border-border p-3 text-right hover:border-accent transition-colors group"
+          >
+            <div className="text-xs text-muted">Next →</div>
+            <div className="text-sm group-hover:text-fg truncate">
+              {next.no}. {next.title}
+            </div>
+          </Link>
+        ) : (
+          <span />
+        )}
       </div>
     </div>
   );

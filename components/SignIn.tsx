@@ -64,7 +64,7 @@ export default function SignIn({ onDone }: { onDone?: () => void }) {
       ) : (
         <form onSubmit={verify} className="space-y-3">
           <p className="text-sm text-muted">
-            Enter the code sent to <span className="text-white">{email}</span>.
+            Enter the code sent to <span className="text-fg">{email}</span>.
           </p>
           <input
             inputMode="numeric"
@@ -88,7 +88,7 @@ export default function SignIn({ onDone }: { onDone?: () => void }) {
               setCode("");
               setError(null);
             }}
-            className="w-full text-xs text-muted hover:text-white"
+            className="w-full text-xs text-muted hover:text-fg"
           >
             ← use a different email
           </button>

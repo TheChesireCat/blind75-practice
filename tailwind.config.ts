@@ -1,5 +1,10 @@
 import type { Config } from "tailwindcss";
 
+// Colors are driven by CSS variables (see globals.css) so a single class on
+// <html> ("light"/"dark") flips the whole palette. Channels are space-
+// separated RGB to keep Tailwind's opacity modifiers (e.g. bg-panel/60) working.
+const v = (name: string) => `rgb(var(${name}) / <alpha-value>)`;
+
 const config: Config = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
@@ -8,11 +13,15 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        bg: "#0d1117",
-        panel: "#161b22",
-        border: "#30363d",
-        accent: "#2f81f7",
-        muted: "#8b949e",
+        bg: v("--c-bg"),
+        panel: v("--c-panel"),
+        border: v("--c-border"),
+        accent: v("--c-accent"),
+        muted: v("--c-muted"),
+        fg: v("--c-fg"),
+        easy: v("--c-easy"),
+        medium: v("--c-medium"),
+        hard: v("--c-hard"),
       },
       fontFamily: {
         mono: ["var(--font-mono)", "ui-monospace", "SFMono-Regular", "monospace"],
