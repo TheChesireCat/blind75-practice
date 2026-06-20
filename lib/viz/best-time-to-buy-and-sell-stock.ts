@@ -55,9 +55,11 @@ export function build(prices: number[] = [7, 1, 5, 3, 6, 4]): Visualization {
     frames.push({
       array: prices,
       highlights,
-      markers: [
-        { index: i, role: "current", label: "current" },
-        ...(minIdx >= 0 ? [{ index: minIdx, role: "min" as const, label: "min / buy" }] : []),
+      pointers: [
+        { index: i, side: "top", tone: "blue", label: "current" },
+        ...(minIdx >= 0
+          ? [{ index: minIdx, side: "bottom" as const, tone: "yellow" as const, label: "min / buy" }]
+          : []),
       ],
       arrow,
       panel: [
@@ -78,11 +80,11 @@ export function build(prices: number[] = [7, 1, 5, 3, 6, 4]): Visualization {
       bestBuy >= 0
         ? { [bestBuy]: "yellow", [bestSell]: "green" }
         : {},
-    markers:
+    pointers:
       bestBuy >= 0
         ? [
-            { index: bestBuy, role: "min", label: "buy" },
-            { index: bestSell, role: "current", label: "sell" },
+            { index: bestBuy, side: "bottom", tone: "yellow", label: "buy" },
+            { index: bestSell, side: "top", tone: "green", label: "sell" },
           ]
         : [],
     arrow:

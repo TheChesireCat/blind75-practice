@@ -1,22 +1,34 @@
 // A trace-driven visualization framework.
 //
 // Per-problem code only has to *run the algorithm and emit frames*; the
-// generic <AlgoVisualizer> renders any frame list (boxes, pointers, arrows,
-// status panel, message) and derives the static table from the same frames.
+// generic <AlgoVisualizer> renders any frame list (boxes, pointers, window,
+// dp row, arrow, status panel, message) and derives the static table.
 
 export type Tone = "blue" | "yellow" | "green" | "gray" | "red";
 
-export type Marker = {
+export type Pointer = {
   index: number;
-  role: "current" | "min"; // pointer above (current) / tag below (min/buy)
   label?: string;
+  /** "top" draws an arrow above the row, "bottom" a tag below. default top */
+  side?: "top" | "bottom";
+  tone?: Tone; // default blue
+};
+
+/** A second row of computed values rendered beneath the main array. */
+export type DpRow = {
+  label?: string;
+  values: (number | string | null)[];
+  highlights?: Record<number, Tone>;
 };
 
 export type Frame = {
   array: (number | string)[];
   /** per-cell background tint by index */
   highlights?: Record<number, Tone>;
-  markers?: Marker[];
+  pointers?: Pointer[];
+  /** highlighted contiguous range [from..to], e.g. a sliding window */
+  window?: { from: number; to: number; label?: string; tone?: Tone };
+  dp?: DpRow;
   /** curved arrow between two cells, e.g. buy -> sell */
   arrow?: { from: number; to: number; label?: string; tone?: Tone };
   /** side status panel rows */
@@ -28,7 +40,6 @@ export type Frame = {
 
 export type Visualization = {
   title: string;
-  /** column headers for the static table */
   columns: string[];
   frames: Frame[];
 };
